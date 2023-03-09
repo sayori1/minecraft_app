@@ -1,0 +1,174 @@
+name: merlin
+
+publish_to: "none"
+version: 1.5.6+1068
+
+environment:
+  sdk: ">=2.17.5 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  win32: 2.7.0
+  flutter_keyboard_visibility: 5.0.0
+  auto_size_text:
+  cached_network_image:
+  camera: 0.10.0+1
+  audioplayers: 1.0.1
+  contacts_service:
+  cupertino_range_slider:
+  device_info:
+  dio:
+  dotted_border:
+  esys_flutter_share:
+    git:
+      url: https://github.com/cihadturhan/esys-flutter-share.git
+      ref: nullsafety+embedding-2
+  equatable:
+  firebase_core:
+  firebase_messaging:
+  flutter_markdown:
+  flutter_inapp_purchase: 5.3.1
+  flutter_svg:
+  flutter_spinkit:
+  get:
+  gql_dio_link:
+  graphql:
+  hive:
+  hive_flutter:
+  http:
+  image_picker:
+  intl:
+  launch_review:
+  local_auth:
+  logger:
+  lottie:
+  mask_text_input_formatter:
+  page_transition:
+  path_provider:
+  permission_handler:
+  photo_view:
+  pin_code_fields:
+  pull_to_refresh:
+  receive_sharing_intent:
+  rxdart:
+  sensors:
+  shimmer:
+  supercharged:
+  touchable:
+  url_launcher:
+  webview_flutter:
+  data_connection_checker:
+  share:
+  country_code_picker:
+  amplitude_flutter:
+  shared_preferences:
+  flutter_inappwebview: 5.0.5
+  photo_manager:
+  flutter_slidable: 0.6.0
+  carousel_slider:
+  in_app_review:
+  open_appstore:
+  percent_indicator:
+  flutter_typeahead:
+  flutter_vibrate:
+  custom_pop_up_menu:
+  flutter_app_badger:
+  adapty_flutter: 1.0.11
+  sliding_up_panel:
+  blur:
+  rive:
+  in_app_update:
+  flutter_launcher_icons:
+  sliver_header_delegate:
+  flutter_sms:
+  overlay_tutorial: 1.0.0
+  google_ml_vision:
+  crypto:
+  uni_links:
+  appmetrica_plugin: ^1.0.1
+  advertising_id:
+  firebase_crashlytics:
+  facebook_app_events: ^0.18.3
+  flutter_localizations:
+    sdk: flutter
+  firebase_auth: ^3.8.0
+  sign_in_with_apple: ^4.3.0
+  camerax:
+    git:
+      url: https://github.com/sayori1/camerax
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  integration_test:
+    sdk: flutter
+  build_runner:
+  hive_generator:
+  json_serializable:
+  lint:
+  intl_utils:
+  flutter_launcher_icons:
+  expandable_page_view:
+
+dependency_overrides:
+  package_info_plus_windows: 0.0.1
+  firebase_core_platform_interface: 4.5.1
+
+flutter:
+  fonts:
+    - family: ProximaNova
+      fonts:
+        - asset: assets/fonts/ProximaNova.otf
+    - family: BebasNeue
+      fonts:
+        - asset: assets/fonts/BebasNeue.ttf
+        - asset: assets/fonts/BebasNeue400.ttf
+          weight: 400
+  uses-material-design: true
+  assets:
+    # Images
+    - assets/images/
+    - assets/images/onboarding/
+    - assets/langs/
+    # Images
+    - assets/icons/
+    - assets/icons/backgrounds/
+    - assets/icons/subscriptions/
+    - assets/icons/bottom_nav_bar/
+    - assets/icons/auth/
+    - assets/icons/first_message/
+    - assets/icons/referrals_about/
+    - assets/icons/profile_tabbar/
+    - assets/icons/details/
+    - assets/icons/onboarding/
+    - assets/icons/onboarding/paywall/
+    - assets/icons/history_items/
+    - assets/icons/details_indicator/
+    - assets/icons/sort_popup/
+    - assets/icons/slider/
+    - assets/icons/tariff_slider/
+    #Fonts
+    - assets/fonts/
+    #Animations
+    - assets/animations/
+    - assets/instructions/
+    - assets/animations/splash/
+    - assets/animations/results/
+    - assets/animations/new_analysis_splash/
+    - assets/animations/profile_photos/
+    - assets/animations/analysis_process/
+    - assets/animations/details/
+    #HTML
+    - assets/html/
+    #SOUNDS
+    - assets/sounds/
+flutter_intl:
+  enabled: true
+  main_locale: ru
+  class_name: Strings
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: false
+  image_path: "assets/images/ic_launcher.png"
