@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/constants/colors.dart';
+import 'package:flutter_application/main.dart';
 import 'package:flutter_application/ui/feedback/feedback_view.dart';
+import 'package:flutter_application/ui/likes/likes_controller.dart';
 import 'package:flutter_application/ui/likes/likes_view.dart';
 import 'package:flutter_application/ui/main/main_view.dart';
 import 'package:flutter_application/ui/root/root_controller.dart';
@@ -19,38 +21,18 @@ class RootView extends StatelessWidget {
             backgroundColor: AppColors.backgroundColor,
             resizeToAvoidBottomInset: false,
             extendBody: true,
-            body: Stack(
-              children: [
-                IndexedStack(
-                  index: model.selectedTab.value,
-                  children: <Widget>[
-                    Navigator(
-                      key: Get.nestedKey(Tabs.main.index),
-                      observers: [HeroController()],
-                      onGenerateRoute: (settings) => GetPageRoute<dynamic>(
-                        settings: settings,
-                        page: () => const MainView(),
-                      ),
-                    ),
-                    Navigator(
-                      key: Get.nestedKey(Tabs.likes.index),
-                      observers: [HeroController()],
-                      onGenerateRoute: (settings) => GetPageRoute<dynamic>(
-                        settings: settings,
-                        page: () => const LikesView(),
-                      ),
-                    ),
-                    Navigator(
-                      key: Get.nestedKey(Tabs.feedback.index),
-                      observers: [HeroController()],
-                      onGenerateRoute: (settings) => GetPageRoute<dynamic>(
-                        settings: settings,
-                        page: () => const FeedbackView(),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+            body: Navigator(
+              key: Get.nestedKey(0),
+              initialRoute: AppLinks.main,
+              onGenerateRoute: ((settings) {
+                if (settings.name == AppLinks.main) {
+                  return GetPageRoute(page: () => MainView());
+                } else if (settings.name == AppLinks.likes) {
+                  return GetPageRoute(page: () => LikesView());
+                } else if (settings.name == AppLinks.feedback) {
+                  return GetPageRoute(page: () => FeedbackView());
+                }
+              }),
             ),
             bottomNavigationBar: BottomNavigationBar(
               showSelectedLabels: false,
@@ -58,7 +40,14 @@ class RootView extends StatelessWidget {
               selectedItemColor: Colors.blue,
               unselectedItemColor: Colors.blue.withOpacity(0.5),
               currentIndex: model.selectedTab.value,
-              onTap: (index) {
+              onTap: (index) async {
+                if (index == 0) Get.toNamed(AppLinks.main, id: 0);
+                if (index == 1) {
+                  if (Get.isRegistered<LikesController>())
+                    Get.find<LikesController>().load();
+                  Get.toNamed(AppLinks.likes, id: 0);
+                }
+                if (index == 2) Get.toNamed(AppLinks.feedback, id: 0);
                 model.selectedTab.value = index;
               },
               items: [

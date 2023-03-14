@@ -18,7 +18,7 @@ class Game {
   List<Color> colors;
   File file;
   Type fillLike;
-  List<String> similars;
+  List<Game> similars;
   List<Link> links;
 
   Game({
@@ -64,7 +64,7 @@ class Game {
       file: File.fromJson(json["file"]),
       fillLike: Type.fromJson(json["fill_like"]),
       similars: json['similars'] != null
-          ? List<String>.from(json["similars"].map((x) => x))
+          ? List<Game>.from(json["similars"].map((x) => Game.fromJson(x)))
           : [],
       links: () {
         var data = (json['_links']);

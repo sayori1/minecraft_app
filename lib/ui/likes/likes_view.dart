@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/constants/colors.dart';
 import 'package:flutter_application/ui/likes/likes_controller.dart';
+import 'package:flutter_application/ui/main/widgets/small_card.dart';
+import 'package:flutter_application/utils/utils.dart';
 import 'package:get/get.dart';
 
 class LikesView extends StatelessWidget {
@@ -10,10 +13,48 @@ class LikesView extends StatelessWidget {
     return GetBuilder<LikesController>(
         init: LikesController(),
         builder: (model) {
+          List<Widget> children = model.likedGames
+              .map((e) => SmallCard(
+                  onTap: () {},
+                  downloads: e.installAmount,
+                  image: e.logo,
+                  title: e.title,
+                  category: e.type,
+                  grade: e.rating.toDouble(),
+                  size: Utils.bytesToMegabytes(e.file.size).toString() + ' MB',
+                  version: 'VER: 1,5'))
+              .toList();
+
           return Scaffold(
+              appBar: AppBar(
+                centerTitle: true,
+                title: Text('Избранное'),
+                shadowColor: Colors.transparent,
+                backgroundColor: Pallete.blue,
+                leading: BackButton(
+                  onPressed: () {},
+                ),
+              ),
               body: Stack(
-            children: const [],
-          ));
+                children: [
+                  Column(
+                    children: [
+                      SizedBox(height: 20),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: GridView.count(
+                            crossAxisSpacing: 10,
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            crossAxisCount: 2,
+                            children: children,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ));
         });
   }
 }

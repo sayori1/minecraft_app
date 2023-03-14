@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application/constants/colors.dart';
 import 'package:flutter_application/constants/text_styles.dart';
 import 'package:flutter_application/repositories/dowloaded_repository.dart';
+import 'package:flutter_application/repositories/liked_repository.dart';
 import 'package:flutter_application/services/downloader_service.dart';
 import 'package:flutter_application/ui/main/main_controller.dart';
 import 'package:flutter_application/ui/main/widgets/card.dart';
@@ -31,123 +32,124 @@ class SelectedGameView extends StatelessWidget {
               Utils.bytesToMegabytes(model.selectedGame!.file.size).toString() +
                   ' MB',
           version: 'VER: 1,5');
-
       return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text(model.selectedGame!.title),
-          leading: BackButton(
-            onPressed: () {
-              model.changeMode(mode.preview);
-            },
-          ),
-          actions: [
-            IconButton(
-                onPressed: () {},
-                icon: SvgPicture.asset('assets/icons/heart_border.svg'))
-          ],
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    card,
-                    Obx(
-                      () => (!model.isDownloaded.value)
-                          ? MaterialButton(
-                              color: Pallete.blue,
-                              onPressed: () {
-                                Get.find<DownloaderService>().startDownloading(
-                                    model.selectedGame!.file.url);
-                                showDownloadDialog();
-                              },
-                              child: Text(
-                                'Установить',
-                                style: TextStyle(
-                                  color: Pallete.white,
-                                ),
-                              ),
-                            )
-                          : Container(
-                              padding: EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8))),
-                              child: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  children: [
-                                    SizedBox(height: 10),
-                                    Text('Успешно загружено',
-                                        style: AppTextStyles.interSemiBold16,
-                                        textAlign: TextAlign.center),
-                                    SizedBox(height: 20),
-                                    Align(
-                                        child: Container(
-                                            padding: EdgeInsets.all(8.0),
-                                            decoration: BoxDecoration(
-                                                color: Pallete.blue,
-                                                shape: BoxShape.circle),
-                                            child: SvgPicture.asset(
-                                                'assets/icons/done.svg',
-                                                width: 50,
-                                                height: 50,
-                                                color: Pallete.white))),
-                                    SizedBox(height: 20),
-                                    Text('Нажмите, чтобы открыть в Minecraft',
-                                        style: AppTextStyles.interRegular16,
-                                        textAlign: TextAlign.center),
-                                    SizedBox(height: 10),
-                                    MaterialButton(
-                                      color: Pallete.blue,
-                                      onPressed: () {},
-                                      child: Text(
-                                        'Открыть в Minecraft',
-                                        style: TextStyle(
-                                          color: Pallete.white,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(height: 10),
-                                  ])),
-                    ),
-                    MaterialButton(
-                      color: Pallete.white,
-                      onPressed: () => showRatingDialog(),
-                      child: Text(
-                        'Оценить приложение',
-                        style: TextStyle(
-                          color: Pallete.blue,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    Text(model.selectedGame!.description ?? "Пустое описание"),
-                    MaterialButton(
-                      color: Pallete.red,
-                      onPressed: () => showFeedbackDialog(),
-                      child: Text(
-                        'Не работает карта/мод/скин?',
-                        style: TextStyle(
-                          color: Pallete.white,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              ColoredCategory(
-                  horizontalCount: 2, categoryName: 'Похожее', children: [])
+          appBar: AppBar(
+            centerTitle: true,
+            title: Text(model.selectedGame!.title),
+            leading: BackButton(
+              onPressed: () {
+                model.changeMode(mode.preview);
+              },
+            ),
+            actions: [
+              LikeButton(
+                  isLiked: model.isLiked.value,
+                  onTap: (bool value) {
+                    if (value)
+                      LikedRepository.addLiked(
+                          model.selectedGame!.id.toString());
+                    if (!value)
+                      LikedRepository.deleteLiked(
+                          model.selectedGame!.id.toString());
+                  })
             ],
           ),
-        ),
-      );
+          body: SingleChildScrollView(
+              child: Obx(() => (!model.isDownloaded.value)
+                  ? Column(
+                      children: [
+                        Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                card,
+                                MaterialButton(
+                                  color: Pallete.blue,
+                                  onPressed: () {
+                                    Get.find<DownloaderService>()
+                                        .startDownloading(
+                                            model.selectedGame!.file.url);
+                                    showDownloadDialog();
+                                  },
+                                  child: Text(
+                                    'Установить',
+                                    style: TextStyle(
+                                      color: Pallete.white,
+                                    ),
+                                  ),
+                                ),
+                                MaterialButton(
+                                  color: Pallete.white,
+                                  onPressed: () => showRatingDialog(),
+                                  child: Text(
+                                    'Оценить приложение',
+                                    style: TextStyle(
+                                      color: Pallete.blue,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 20),
+                                Text(model.selectedGame!.description ??
+                                    "Пустое описание"),
+                                MaterialButton(
+                                  color: Pallete.red,
+                                  onPressed: () => showFeedbackDialog(),
+                                  child: Text(
+                                    'Не работает карта/мод/скин?',
+                                    style: TextStyle(
+                                      color: Pallete.white,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )),
+                        ColoredCategory(
+                            horizontalCount: 2,
+                            categoryName: 'Похожее',
+                            children: [])
+                      ],
+                    )
+                  : downloadedCard())));
     });
+  }
+
+  Container downloadedCard() {
+    return Container(
+        padding: EdgeInsets.all(8),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(8))),
+        child:
+            Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          SizedBox(height: 10),
+          Text('Успешно загружено',
+              style: AppTextStyles.interSemiBold16,
+              textAlign: TextAlign.center),
+          SizedBox(height: 20),
+          Align(
+              child: Container(
+                  padding: EdgeInsets.all(8.0),
+                  decoration: BoxDecoration(
+                      color: Pallete.blue, shape: BoxShape.circle),
+                  child: SvgPicture.asset('assets/icons/done.svg',
+                      width: 50, height: 50, color: Pallete.white))),
+          SizedBox(height: 20),
+          Text('Нажмите, чтобы открыть в Minecraft',
+              style: AppTextStyles.interRegular16, textAlign: TextAlign.center),
+          SizedBox(height: 10),
+          MaterialButton(
+            color: Pallete.blue,
+            onPressed: () {},
+            child: Text(
+              'Открыть в Minecraft',
+              style: TextStyle(
+                color: Pallete.white,
+              ),
+            ),
+          ),
+          SizedBox(height: 10),
+        ]));
   }
 
   void showFeedbackDialog() {
@@ -263,8 +265,35 @@ class SelectedGameView extends StatelessWidget {
     if (result) {
       Get.find<MainController>().isDownloaded.value = true;
       DownloadRepository.addDownloaded(
-          Get.find<MainController>().selectedGame!.title);
+          Get.find<MainController>().selectedGame!.id.toString());
     }
+  }
+}
+
+class LikeButton extends StatefulWidget {
+  bool isLiked = false;
+  Function(bool) onTap;
+
+  LikeButton({Key? key, this.isLiked = false, required this.onTap})
+      : super(key: key);
+
+  @override
+  State<LikeButton> createState() => _LikeButtonState();
+}
+
+class _LikeButtonState extends State<LikeButton> {
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+        onPressed: () {
+          setState(() {
+            widget.isLiked = !widget.isLiked;
+            widget.onTap(widget.isLiked);
+          });
+        },
+        icon: SvgPicture.asset(widget.isLiked
+            ? 'assets/icons/heart_red.svg'
+            : 'assets/icons/heart_border.svg'));
   }
 }
 
