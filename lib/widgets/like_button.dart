@@ -24,11 +24,11 @@ class _LikeButtonState extends State<LikeButton> {
     return IconButton(
         onPressed: () {
           setState(() {
-            isLiked = !widget.isLiked;
-            widget.onTap(widget.isLiked);
+            isLiked = !isLiked;
+            widget.onTap(isLiked);
           });
         },
-        icon: SvgPicture.asset(widget.isLiked
+        icon: SvgPicture.asset(isLiked
             ? 'assets/icons/heart_red.svg'
             : 'assets/icons/heart_border.svg'));
   }
