@@ -6,9 +6,9 @@ import 'package:flutter_application/constants/text_styles.dart';
 import 'package:flutter_application/repositories/dowloaded_repository.dart';
 import 'package:flutter_application/repositories/liked_repository.dart';
 import 'package:flutter_application/services/downloader_service.dart';
-import 'package:flutter_application/ui/main/main_controller.dart';
-import 'package:flutter_application/ui/main/widgets/card.dart';
-import 'package:flutter_application/ui/main/widgets/colored_category.dart';
+import 'package:flutter_application/views/main/main_controller.dart';
+import 'package:flutter_application/views/main/widgets/card.dart';
+import 'package:flutter_application/views/main/widgets/colored_category.dart';
 import 'package:flutter_application/utils/utils.dart';
 import 'package:flutter_application/widgets/rating_widget.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
@@ -16,7 +16,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class SelectedGameView extends StatelessWidget {
-  const SelectedGameView({Key? key}) : super(key: key);
+  const SelectedGameView();
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class SelectedGameView extends StatelessWidget {
             title: Text(model.selectedGame!.title),
             leading: BackButton(
               onPressed: () {
-                model.changeMode(mode.preview);
+                model.back();
               },
             ),
             actions: [
@@ -94,7 +94,7 @@ class SelectedGameView extends StatelessWidget {
                                     "Пустое описание"),
                                 MaterialButton(
                                   color: Pallete.red,
-                                  onPressed: () => showFeedbackDialog(),
+                                  onPressed: () => showFeedbackDialog(model),
                                   child: Text(
                                     'Не работает карта/мод/скин?',
                                     style: TextStyle(
@@ -152,7 +152,7 @@ class SelectedGameView extends StatelessWidget {
         ]));
   }
 
-  void showFeedbackDialog() {
+  void showFeedbackDialog(MainController model) {
     Get.dialog(
       Center(
         child: Container(
@@ -179,6 +179,7 @@ class SelectedGameView extends StatelessWidget {
                         keyboardType: TextInputType.multiline,
                         maxLines: null,
                         minLines: 5,
+                        controller: model.feedBackText,
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.white,
@@ -274,8 +275,7 @@ class LikeButton extends StatefulWidget {
   bool isLiked = false;
   Function(bool) onTap;
 
-  LikeButton({Key? key, this.isLiked = false, required this.onTap})
-      : super(key: key);
+  LikeButton({this.isLiked = false, required this.onTap});
 
   @override
   State<LikeButton> createState() => _LikeButtonState();
@@ -298,10 +298,6 @@ class _LikeButtonState extends State<LikeButton> {
 }
 
 class DownloadDialog extends StatelessWidget {
-  DownloadDialog({
-    Key? key,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return GetBuilder<DownloaderService>(builder: (model) {

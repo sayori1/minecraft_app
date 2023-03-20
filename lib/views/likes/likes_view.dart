@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/constants/colors.dart';
-import 'package:flutter_application/ui/likes/likes_controller.dart';
-import 'package:flutter_application/ui/main/widgets/small_card.dart';
+import 'package:flutter_application/views/likes/likes_controller.dart';
+import 'package:flutter_application/views/main/widgets/small_card.dart';
 import 'package:flutter_application/utils/utils.dart';
 import 'package:get/get.dart';
 

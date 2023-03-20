@@ -13,8 +13,7 @@ import 'package:get/get.dart';
 enum mode { preview, categories, selectedCategory, selectedGame }
 
 class MainController extends GetxController {
-  Enum selectedMode = mode.preview;
-  List<Enum> navigationStack = [];
+  List<Enum> navigationStack = [mode.preview];
 
   MainResponse? response;
 
@@ -23,21 +22,30 @@ class MainController extends GetxController {
   Game? selectedGame;
   RxBool isDownloaded = RxBool(false);
   RxBool isLiked = RxBool(false);
+  TextEditingController feedBackText = TextEditingController();
 
   @override
   void onInit() async {
     super.onInit();
-    response = await ApplicationApi.getMain();
+    response = await ApplicationAPI.getMain();
     update();
   }
 
-  void changeMode(Enum _mode) {
-    selectedMode = _mode;
+  void goTo(Enum _mode, {addToStack = true}) {
+    if (addToStack) navigationStack.add(_mode);
     if (_mode == mode.preview) Get.toNamed(AppLinks.preview, id: 1);
     if (_mode == mode.categories) Get.toNamed(AppLinks.categories, id: 1);
     if (_mode == mode.selectedCategory)
       Get.toNamed(AppLinks.selected_category, id: 1);
     if (_mode == mode.selectedGame) Get.toNamed(AppLinks.selected_game, id: 1);
+  }
+
+  void back() {
+    navigationStack.removeLast();
+    if (navigationStack.isNotEmpty)
+      goTo(navigationStack.last, addToStack: false);
+    else
+      goTo(mode.preview, addToStack: false);
   }
 
   void goToGame(Game game) async {
@@ -53,7 +61,11 @@ class MainController extends GetxController {
     }
 
     selectedGame = game;
-    changeMode(mode.selectedGame);
+    goTo(mode.selectedGame);
     update();
   }
+
+  void sendFeedback() {}
+
+  void sendLike() {}
 }

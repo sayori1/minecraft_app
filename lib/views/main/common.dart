@@ -3,11 +3,11 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/models/base/category.dart';
 import 'package:flutter_application/models/base/game.dart';
-import 'package:flutter_application/ui/main/main_controller.dart';
-import 'package:flutter_application/ui/main/widgets/card.dart';
-import 'package:flutter_application/ui/main/widgets/category.dart';
-import 'package:flutter_application/ui/main/widgets/colored_category.dart';
-import 'package:flutter_application/ui/main/widgets/small_card.dart';
+import 'package:flutter_application/views/main/main_controller.dart';
+import 'package:flutter_application/views/main/widgets/card.dart';
+import 'package:flutter_application/views/main/widgets/category.dart';
+import 'package:flutter_application/views/main/widgets/colored_category.dart';
+import 'package:flutter_application/views/main/widgets/small_card.dart';
 import 'package:flutter_application/utils/utils.dart';
 import 'package:get/get.dart';
 
@@ -38,7 +38,7 @@ class Common {
               buttonText: "Показать все",
               onTap: () {
                 model.selectedCategory = e;
-                model.changeMode(mode.selectedCategory);
+                model.goTo(mode.selectedCategory);
               });
         }).toList()
       ]);
@@ -68,7 +68,7 @@ class Common {
           children: children,
           buttonText: 'Еще категории',
           onTap: () {
-            model.changeMode(mode.categories);
+            model.goTo(mode.categories);
           });
     }));
   }

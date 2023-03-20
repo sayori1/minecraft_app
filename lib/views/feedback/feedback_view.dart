@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/constants/colors.dart';
 import 'package:flutter_application/constants/text_styles.dart';
-import 'package:flutter_application/ui/feedback/feedback_controller.dart';
+import 'package:flutter_application/views/feedback/feedback_controller.dart';
 import 'package:get/get.dart';
 
 class FeedbackView extends StatelessWidget {
@@ -45,6 +45,8 @@ class FeedbackView extends StatelessWidget {
                                   keyboardType: TextInputType.multiline,
                                   maxLines: null,
                                   minLines: 1,
+                                  autofocus: true,
+                                  controller: model.emailText,
                                   decoration: InputDecoration(
                                     hintText: 'Ваш e-mail',
                                     filled: true,
@@ -62,6 +64,8 @@ class FeedbackView extends StatelessWidget {
                                   keyboardType: TextInputType.multiline,
                                   maxLines: null,
                                   minLines: 5,
+                                  autofocus: true,
+                                  controller: model.feedBackText,
                                   decoration: InputDecoration(
                                     hintText: 'Что вы хотели сказать?',
                                     filled: true,

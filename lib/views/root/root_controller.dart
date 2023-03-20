@@ -1,8 +1,8 @@
 import 'package:flutter_application/main.dart';
-import 'package:flutter_application/ui/feedback/feedback_view.dart';
-import 'package:flutter_application/ui/likes/likes_controller.dart';
-import 'package:flutter_application/ui/likes/likes_view.dart';
-import 'package:flutter_application/ui/main/main_view.dart';
+import 'package:flutter_application/views/feedback/feedback_view.dart';
+import 'package:flutter_application/views/likes/likes_controller.dart';
+import 'package:flutter_application/views/likes/likes_view.dart';
+import 'package:flutter_application/views/main/main_view.dart';
 import 'package:get/get.dart';
 
 enum Tabs { main, likes, feedback }

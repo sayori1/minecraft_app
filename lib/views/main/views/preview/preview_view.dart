@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/ui/main/main_controller.dart';
-import 'package:flutter_application/ui/main/common.dart';
+import 'package:flutter_application/views/main/main_controller.dart';
+import 'package:flutter_application/views/main/common.dart';
 import 'package:get/get.dart';
 
 class PreviewView extends StatelessWidget {
-  const PreviewView({Key? key}) : super(key: key);
+  const PreviewView();
 
   @override
   Widget build(BuildContext context) {

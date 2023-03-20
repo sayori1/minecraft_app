@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/constants/colors.dart';
 import 'package:flutter_application/services/downloader_service.dart';
-import 'package:flutter_application/ui/feedback/feedback_controller.dart';
-import 'package:flutter_application/ui/feedback/feedback_view.dart';
-import 'package:flutter_application/ui/likes/likes_controller.dart';
-import 'package:flutter_application/ui/likes/likes_view.dart';
-import 'package:flutter_application/ui/main/main_controller.dart';
-import 'package:flutter_application/ui/main/main_view.dart';
-import 'package:flutter_application/ui/root/root_view.dart';
+import 'package:flutter_application/views/feedback/feedback_controller.dart';
+import 'package:flutter_application/views/feedback/feedback_view.dart';
+import 'package:flutter_application/views/likes/likes_controller.dart';
+import 'package:flutter_application/views/likes/likes_view.dart';
+import 'package:flutter_application/views/main/main_controller.dart';
+import 'package:flutter_application/views/main/main_view.dart';
+import 'package:flutter_application/views/root/root_view.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:get/get.dart';
 

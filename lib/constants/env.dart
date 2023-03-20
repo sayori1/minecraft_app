@@ -1,3 +1,4 @@
 class Env {
-  static const String apiUrl = 'https://api.kalvlad1994.com/v1/';
+  static const String apiUrl = 'api.kalvlad1994.com';
+  static const String version = 'v1';
 }

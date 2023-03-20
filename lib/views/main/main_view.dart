@@ -1,12 +1,13 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application/constants/keys.dart';
 import 'package:flutter_application/main.dart';
-import 'package:flutter_application/ui/main/main_controller.dart';
-import 'package:flutter_application/ui/main/modes/categories_view.dart';
-import 'package:flutter_application/ui/main/modes/preview_view.dart';
-import 'package:flutter_application/ui/main/modes/selected_category_view.dart';
-import 'package:flutter_application/ui/main/modes/selected_game_view.dart';
+import 'package:flutter_application/views/main/main_controller.dart';
+import 'package:flutter_application/views/main/views/categories_view/categories_view.dart';
+import 'package:flutter_application/views/main/views/preview/preview_view.dart';
+import 'package:flutter_application/views/main/views/selected_category/selected_category_view.dart';
+import 'package:flutter_application/views/main/views/selected_game/selected_game_view.dart';
 import 'package:get/get.dart';
 
 class MainView extends StatelessWidget {
@@ -25,7 +26,7 @@ class MainView extends StatelessWidget {
                   child: CircularProgressIndicator(),
                 ))
               : Navigator(
-                  key: Get.nestedKey(1),
+                  key: AppKeys.mainNavigationKey,
                   initialRoute: AppLinks.preview,
                   onGenerateRoute: ((settings) {
                     if (settings.name == AppLinks.preview) {

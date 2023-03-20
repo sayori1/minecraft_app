@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/constants/colors.dart';
+import 'package:flutter_application/constants/keys.dart';
 import 'package:flutter_application/main.dart';
-import 'package:flutter_application/ui/feedback/feedback_view.dart';
-import 'package:flutter_application/ui/likes/likes_controller.dart';
-import 'package:flutter_application/ui/likes/likes_view.dart';
-import 'package:flutter_application/ui/main/main_view.dart';
-import 'package:flutter_application/ui/root/root_controller.dart';
+import 'package:flutter_application/views/feedback/feedback_view.dart';
+import 'package:flutter_application/views/likes/likes_controller.dart';
+import 'package:flutter_application/views/likes/likes_view.dart';
+import 'package:flutter_application/views/main/main_view.dart';
+import 'package:flutter_application/views/root/root_controller.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
@@ -22,7 +23,7 @@ class RootView extends StatelessWidget {
             resizeToAvoidBottomInset: false,
             extendBody: true,
             body: Navigator(
-              key: Get.nestedKey(0),
+              key: AppKeys.rootNavigationKey,
               initialRoute: AppLinks.main,
               onGenerateRoute: ((settings) {
                 if (settings.name == AppLinks.main) {

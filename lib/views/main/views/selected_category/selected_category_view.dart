@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/ui/main/main_controller.dart';
-import 'package:flutter_application/ui/main/widgets/card.dart';
+import 'package:flutter_application/views/main/main_controller.dart';
+import 'package:flutter_application/views/main/widgets/card.dart';
 import 'package:flutter_application/utils/utils.dart';
 import 'package:get/get.dart';
 
 class SelectedCategoryView extends StatelessWidget {
-  const SelectedCategoryView({Key? key}) : super(key: key);
+  const SelectedCategoryView();
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class SelectedCategoryView extends StatelessWidget {
           title: Text(model.selectedCategory!.title),
           leading: BackButton(
             onPressed: () {
-              model.changeMode(mode.preview);
+              model.back();
             },
           ),
         ),

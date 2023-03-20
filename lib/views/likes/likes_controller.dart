@@ -3,8 +3,8 @@ import 'dart:developer';
 import 'package:flutter_application/api/game.dart';
 import 'package:flutter_application/models/base/game.dart';
 import 'package:flutter_application/repositories/liked_repository.dart';
-import 'package:flutter_application/ui/main/main_controller.dart';
-import 'package:flutter_application/ui/root/root_controller.dart';
+import 'package:flutter_application/views/main/main_controller.dart';
+import 'package:flutter_application/views/root/root_controller.dart';
 import 'package:get/get.dart';
 
 class LikesController extends GetxController {
@@ -23,7 +23,7 @@ class LikesController extends GetxController {
     isBusy = true.obs;
     likes = await LikedRepository.getList();
     likedGames =
-        await Future.wait(likes.map((e) => GameApi.getGame(e)).toList());
+        await Future.wait(likes.map((e) => GameAPI.getGame(e)).toList());
     isBusy = false.obs;
     update();
   }
