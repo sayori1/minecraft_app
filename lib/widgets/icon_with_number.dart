@@ -7,19 +7,19 @@ class IconWithNumber extends StatelessWidget {
   final String icon;
   final String number;
 
-  IconWithNumber({required this.icon, required this.number});
+  const IconWithNumber({super.key, required this.icon, required this.number});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         SvgPicture.asset(icon, width: 20),
-        SizedBox(width: 5.0),
+        const SizedBox(width: 5.0),
         Text(
-          '$number',
+          number,
           style: AppTextStyles.interRegular16.copyWith(color: Pallete.blue),
         ),
-        SizedBox(width: 13.0),
+        const SizedBox(width: 13.0),
       ],
     );
   }

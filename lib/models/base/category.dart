@@ -1,7 +1,6 @@
 import 'color.dart';
 import 'game.dart';
 import 'link.dart';
-import 'type.dart';
 
 class Category {
   List<Game> gamesTop;

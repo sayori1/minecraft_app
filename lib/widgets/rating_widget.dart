@@ -5,16 +5,17 @@ class RatingWidget extends StatefulWidget {
   final Function(double) onRatingChanged;
   final double size;
 
-  RatingWidget(
-      {this.initialRating = 0,
+  const RatingWidget(
+      {super.key,
+      this.initialRating = 0,
       required this.onRatingChanged,
       required this.size});
 
   @override
-  _RatingWidgetState createState() => _RatingWidgetState();
+  RatingWidgetState createState() => RatingWidgetState();
 }
 
-class _RatingWidgetState extends State<RatingWidget> {
+class RatingWidgetState extends State<RatingWidget> {
   late double _rating;
 
   @override

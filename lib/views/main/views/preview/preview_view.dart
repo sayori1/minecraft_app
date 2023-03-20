@@ -7,7 +7,7 @@ import 'package:flutter_application/views/main/common.dart';
 import 'package:get/get.dart';
 
 class PreviewView extends StatelessWidget {
-  const PreviewView();
+  const PreviewView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,13 +17,18 @@ class PreviewView extends StatelessWidget {
             ? Column(
                 children: [
                   Common.fullCategory(model.response!.categories.first,
-                      onGameTap: (Game game) {}, onButtonTap: () {
+                      onGameTap: (Game game) {
+                    Get.toNamed(AppLinks.selectedGame, id: 1, arguments: game);
+                  }, onButtonTap: () {
                     Get.toNamed(AppLinks.categories, id: 1);
                   }),
-                  Common.categories(model.response!.categories,
-                      start: 1,
-                      onGameTap: (Game game) {},
-                      onCategoryTap: (Category category) {}),
+                  Common.categories(model.response!.categories, start: 1,
+                      onGameTap: (Game game) {
+                    Get.toNamed(AppLinks.selectedGame, id: 1, arguments: game);
+                  }, onCategoryTap: (Category category) {
+                    Get.toNamed(AppLinks.selectedCategory,
+                        id: 1, arguments: category);
+                  }),
                 ],
               )
             : const Center(

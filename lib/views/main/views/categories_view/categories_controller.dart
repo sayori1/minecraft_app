@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter_application/models/base/category.dart';
 import 'package:flutter_application/views/main/main_controller.dart';
 import 'package:get/get.dart';

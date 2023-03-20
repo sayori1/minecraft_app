@@ -1,47 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/views/main/main_controller.dart';
-import 'package:flutter_application/views/main/widgets/card.dart';
-import 'package:flutter_application/utils/utils.dart';
+import 'package:flutter_application/main.dart';
+import 'package:flutter_application/views/main/common.dart';
+import 'package:flutter_application/views/main/views/selected_category/selected_category_controller.dart';
 import 'package:get/get.dart';
 
 class SelectedCategoryView extends StatelessWidget {
-  const SelectedCategoryView();
+  const SelectedCategoryView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<MainController>(builder: (model) {
-      List<Widget> children = model.selectedCategory!.gamesTop
-          .map((e) => AppCard(
-              onTap: () => model.goToGame(e),
-              image: e.logo,
-              title: e.title,
-              category: e.type,
-              downloads: e.installAmount,
-              grade: e.rating.toDouble(),
-              size: Utils.bytesToMegabytes(e.file.size).toString() + ' MB',
-              version: 'VER: 1,5'))
-          .toList();
+    return GetBuilder<SelectedCategoryController>(
+        init: SelectedCategoryController(),
+        builder: (model) {
+          List<Widget> children = model.category!.gamesTop
+              .map((e) => Common.gameCard(
+                  e,
+                  (game) => Get.toNamed(AppLinks.selectedGame,
+                      id: 1, arguments: game)))
+              .toList();
 
-      return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text(model.selectedCategory!.title),
-          leading: BackButton(
-            onPressed: () {
-              model.back();
-            },
-          ),
-        ),
-        body: SingleChildScrollView(
-          child: ListView(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            children: children.map((child) {
-              return child;
-            }).toList(),
-          ),
-        ),
-      );
-    });
+          return Scaffold(
+            appBar: AppBar(
+              centerTitle: true,
+              title: Text(model.category!.title),
+              leading: BackButton(
+                onPressed: () {
+                  Get.back(id: 1);
+                },
+              ),
+            ),
+            body: SingleChildScrollView(
+              child: ListView(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                children: children.map((child) {
+                  return child;
+                }).toList(),
+              ),
+            ),
+          );
+        });
   }
 }

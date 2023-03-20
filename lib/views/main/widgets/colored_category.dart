@@ -11,7 +11,8 @@ class ColoredCategory extends StatelessWidget {
 
   final int horizontalCount;
 
-  ColoredCategory({
+  const ColoredCategory({
+    super.key,
     required this.categoryName,
     required this.children,
     this.buttonText,
@@ -21,54 +22,52 @@ class ColoredCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            color: Pallete.blue,
-            height: 50,
-            padding: EdgeInsets.only(left: 20, right: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(categoryName,
-                    style: AppTextStyles.interRegular16.copyWith(
-                        fontWeight: FontWeight.w600, color: Colors.white)),
-                if (buttonText != null)
-                  MaterialButton(
-                    color: Pallete.white,
-                    onPressed: () => onTap!(),
-                    child: Text(
-                      buttonText!,
-                      style: TextStyle(
-                        color: Pallete.blue,
-                      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Container(
+          color: Pallete.blue,
+          height: 50,
+          padding: const EdgeInsets.only(left: 20, right: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(categoryName,
+                  style: AppTextStyles.interRegular16.copyWith(
+                      fontWeight: FontWeight.w600, color: Colors.white)),
+              if (buttonText != null)
+                MaterialButton(
+                  color: Pallete.white,
+                  onPressed: () => onTap!(),
+                  child: Text(
+                    buttonText!,
+                    style: const TextStyle(
+                      color: Pallete.blue,
                     ),
                   ),
-              ],
-            ),
+                ),
+            ],
           ),
-          SizedBox(height: 16.0),
-          if (horizontalCount == 1)
-            ListView(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              children: children.map((child) {
-                return child;
-              }).toList(),
-            )
-          else
-            GridView.count(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              crossAxisCount: horizontalCount,
-              children: children.map((child) {
-                return child;
-              }).toList(),
-            ),
-        ],
-      ),
+        ),
+        const SizedBox(height: 16.0),
+        if (horizontalCount == 1)
+          ListView(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            children: children.map((child) {
+              return child;
+            }).toList(),
+          )
+        else
+          GridView.count(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            crossAxisCount: horizontalCount,
+            children: children.map((child) {
+              return child;
+            }).toList(),
+          ),
+      ],
     );
   }
 }

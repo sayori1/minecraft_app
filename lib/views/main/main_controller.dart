@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_application/api/application.dart';
 import 'package:flutter_application/main.dart';
@@ -10,10 +8,10 @@ import 'package:flutter_application/repositories/dowloaded_repository.dart';
 import 'package:flutter_application/repositories/liked_repository.dart';
 import 'package:get/get.dart';
 
-enum mode { preview, categories, selectedCategory, selectedGame }
+enum MODE { preview, categories, selectedCategory, selectedGame }
 
 class MainController extends GetxController {
-  List<Enum> navigationStack = [mode.preview];
+  List<Enum> navigationStack = [MODE.preview];
 
   MainResponse? response;
 
@@ -31,21 +29,23 @@ class MainController extends GetxController {
     update();
   }
 
-  void goTo(Enum _mode, {addToStack = true}) {
-    if (addToStack) navigationStack.add(_mode);
-    if (_mode == mode.preview) Get.toNamed(AppLinks.preview, id: 1);
-    if (_mode == mode.categories) Get.toNamed(AppLinks.categories, id: 1);
-    if (_mode == mode.selectedCategory)
-      Get.toNamed(AppLinks.selected_category, id: 1);
-    if (_mode == mode.selectedGame) Get.toNamed(AppLinks.selected_game, id: 1);
+  void goTo(Enum mode, {addToStack = true}) {
+    if (addToStack) navigationStack.add(mode);
+    if (mode == MODE.preview) Get.toNamed(AppLinks.preview, id: 1);
+    if (mode == MODE.categories) Get.toNamed(AppLinks.categories, id: 1);
+    if (mode == MODE.selectedCategory) {
+      Get.toNamed(AppLinks.selectedCategory, id: 1);
+    }
+    if (mode == MODE.selectedGame) Get.toNamed(AppLinks.selectedGame, id: 1);
   }
 
   void back() {
     navigationStack.removeLast();
-    if (navigationStack.isNotEmpty)
+    if (navigationStack.isNotEmpty) {
       goTo(navigationStack.last, addToStack: false);
-    else
-      goTo(mode.preview, addToStack: false);
+    } else {
+      goTo(MODE.preview, addToStack: false);
+    }
   }
 
   void goToGame(Game game) async {
@@ -56,12 +56,12 @@ class MainController extends GetxController {
       isDownloaded.value = true;
     }
 
-    if (await LikedRepository.isLiked(game!.id.toString())) {
+    if (await LikedRepository.isLiked(game.id.toString())) {
       isLiked.value = true;
     }
 
     selectedGame = game;
-    goTo(mode.selectedGame);
+    goTo(MODE.selectedGame);
     update();
   }
 

@@ -1,14 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/constants/colors.dart';
 import 'package:flutter_application/services/downloader_service.dart';
-import 'package:flutter_application/views/feedback/feedback_controller.dart';
-import 'package:flutter_application/views/feedback/feedback_view.dart';
-import 'package:flutter_application/views/likes/likes_controller.dart';
-import 'package:flutter_application/views/likes/likes_view.dart';
-import 'package:flutter_application/views/main/main_controller.dart';
-import 'package:flutter_application/views/main/main_view.dart';
 import 'package:flutter_application/views/root/root_view.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:get/get.dart';
 
 import 'dart:async';
@@ -41,7 +34,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       defaultTransition: Transition.rightToLeftWithFade,
-      transitionDuration: 0.5.seconds,
+      transitionDuration: 0.3.seconds,
       title: 'App',
       home: const RootView(),
       enableLog: true,
@@ -74,6 +67,6 @@ class AppLinks {
 
   static const String preview = "/preview";
   static const String categories = "/categories";
-  static const String selected_category = "/selected_category";
-  static const String selected_game = "/selected_game";
+  static const String selectedCategory = "/selected_category";
+  static const String selectedGame = "/selected_game";
 }

@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:isolate';
 import 'dart:ui';
 
@@ -11,7 +10,7 @@ import 'package:path_provider/path_provider.dart';
 которые могут запускаться только в отдельных контекстах, поэтому связь между ними организуется через ReceivePort */
 
 class DownloaderService extends GetxController {
-  ReceivePort _port = ReceivePort();
+  final ReceivePort _port = ReceivePort();
 
   RxString currentTask = RxString("");
   Rx<DownloadTaskStatus> status = Rx(DownloadTaskStatus.undefined);
@@ -36,9 +35,10 @@ class DownloaderService extends GetxController {
     super.onInit();
   }
 
-  Future<String?> startDownloading(String url) async {
+  Future<String?> startDownloading(String url, [String? fileName]) async {
     return FlutterDownloader.enqueue(
       url: url,
+      fileName: fileName,
       saveInPublicStorage: true,
       headers: {}, // optional: header send with url (auth token etc)
       savedDir: (await getTemporaryDirectory()).path,

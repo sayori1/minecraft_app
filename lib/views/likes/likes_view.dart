@@ -11,6 +11,7 @@ class LikesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<LikesController>(
+        key: key,
         init: LikesController(),
         builder: (model) {
           List<Widget> children = model.likedGames
@@ -21,14 +22,14 @@ class LikesView extends StatelessWidget {
                   title: e.title,
                   category: e.type,
                   grade: e.rating.toDouble(),
-                  size: Utils.bytesToMegabytes(e.file.size).toString() + ' MB',
+                  size: '${Utils.bytesToMegabytes(e.file.size)} MB',
                   version: 'VER: 1,5'))
               .toList();
 
           return Scaffold(
               appBar: AppBar(
                 centerTitle: true,
-                title: Text('Избранное'),
+                title: const Text('Избранное'),
                 shadowColor: Colors.transparent,
                 backgroundColor: Pallete.blue,
                 leading: BackButton(
@@ -36,20 +37,20 @@ class LikesView extends StatelessWidget {
                 ),
               ),
               body: model.isBusy.value
-                  ? Center(
+                  ? const Center(
                       child: CircularProgressIndicator(),
                     )
                   : Stack(
                       children: [
                         Column(
                           children: [
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             Expanded(
                               child: SingleChildScrollView(
                                 child: GridView.count(
                                   crossAxisSpacing: 10,
                                   shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
+                                  physics: const NeverScrollableScrollPhysics(),
                                   crossAxisCount: 2,
                                   children: children,
                                 ),

@@ -10,12 +10,13 @@ class FeedbackView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<FeedbackController>(
+        key: key,
         init: FeedbackController(),
         builder: (model) {
           return Scaffold(
               appBar: AppBar(
                 centerTitle: true,
-                title: Text('Обратная связь'),
+                title: const Text('Обратная связь'),
                 shadowColor: Colors.transparent,
                 backgroundColor: Pallete.blue,
                 leading: BackButton(
@@ -27,7 +28,7 @@ class FeedbackView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     Expanded(
                       child: SingleChildScrollView(
                           child: Column(
@@ -40,7 +41,7 @@ class FeedbackView extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 TextField(
                                   keyboardType: TextInputType.multiline,
                                   maxLines: null,
@@ -51,7 +52,7 @@ class FeedbackView extends StatelessWidget {
                                     hintText: 'Ваш e-mail',
                                     filled: true,
                                     fillColor: Colors.white,
-                                    contentPadding: EdgeInsets.symmetric(
+                                    contentPadding: const EdgeInsets.symmetric(
                                         vertical: 16, horizontal: 12),
                                     border: OutlineInputBorder(
                                       borderSide: BorderSide.none,
@@ -59,7 +60,7 @@ class FeedbackView extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 TextField(
                                   keyboardType: TextInputType.multiline,
                                   maxLines: null,
@@ -70,7 +71,7 @@ class FeedbackView extends StatelessWidget {
                                     hintText: 'Что вы хотели сказать?',
                                     filled: true,
                                     fillColor: Colors.white,
-                                    contentPadding: EdgeInsets.symmetric(
+                                    contentPadding: const EdgeInsets.symmetric(
                                         vertical: 16, horizontal: 12),
                                     border: OutlineInputBorder(
                                       borderSide: BorderSide.none,
@@ -78,12 +79,12 @@ class FeedbackView extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 MaterialButton(
                                   height: 50,
                                   color: Pallete.blue,
                                   onPressed: () => {},
-                                  child: Text(
+                                  child: const Text(
                                     'Отправить',
                                     style: TextStyle(
                                       color: Pallete.white,

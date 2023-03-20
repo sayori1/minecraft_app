@@ -13,8 +13,9 @@ class SmallCard extends StatelessWidget {
   final String image;
   final Function onTap;
 
-  SmallCard(
-      {required this.title,
+  const SmallCard(
+      {super.key,
+      required this.title,
       required this.category,
       required this.downloads,
       required this.grade,
@@ -29,8 +30,8 @@ class SmallCard extends StatelessWidget {
       onTap: () => onTap(),
       child: Container(
         color: Colors.white,
-        padding: EdgeInsets.all(16.0),
-        margin: EdgeInsets.only(bottom: 10),
+        padding: const EdgeInsets.all(16.0),
+        margin: const EdgeInsets.only(bottom: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -45,15 +46,15 @@ class SmallCard extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             Expanded(
               child: Image.network(
-                this.image,
+                image,
                 width: double.infinity,
                 fit: BoxFit.fill,
               ),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [

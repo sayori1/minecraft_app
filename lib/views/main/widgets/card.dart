@@ -13,8 +13,9 @@ class AppCard extends StatelessWidget {
   final String image;
   final Function onTap;
 
-  AppCard(
-      {required this.title,
+  const AppCard(
+      {super.key,
+      required this.title,
       required this.category,
       required this.downloads,
       required this.grade,
@@ -26,12 +27,12 @@ class AppCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => this.onTap(),
+      onTap: () => onTap(),
       child: Container(
         color: Colors.white,
-        padding:
-            EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 16.0),
-        margin: EdgeInsets.only(bottom: 10),
+        padding: const EdgeInsets.only(
+            left: 16.0, right: 16.0, top: 16.0, bottom: 16.0),
+        margin: const EdgeInsets.only(bottom: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -43,7 +44,7 @@ class AppCard extends StatelessWidget {
                       .copyWith(color: Pallete.blue),
                   maxLines: 1,
                 ),
-                Spacer(),
+                const Spacer(),
                 Container(
                   color: Pallete.blue2,
                   child: Padding(
@@ -58,14 +59,14 @@ class AppCard extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             Image.network(
-              this.image,
+              image,
               width: double.infinity,
               height: 200.0,
               fit: BoxFit.fill,
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -82,7 +83,7 @@ class AppCard extends StatelessWidget {
                         number: size.toString()),
                   ],
                 ),
-                Spacer(),
+                const Spacer(),
                 Text(version,
                     textAlign: TextAlign.right,
                     style: AppTextStyles.interRegular16

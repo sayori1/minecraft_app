@@ -11,7 +11,8 @@ class AppCategory extends StatelessWidget {
 
   final int horizontalCount;
 
-  AppCategory({
+  const AppCategory({
+    super.key,
     required this.categoryName,
     required this.children,
     required this.buttonText,
@@ -22,7 +23,7 @@ class AppCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -37,18 +38,18 @@ class AppCategory extends StatelessWidget {
                 onPressed: () => onTap(),
                 child: Text(
                   buttonText,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                   ),
                 ),
               ),
             ],
           ),
-          SizedBox(height: 16.0),
+          const SizedBox(height: 16.0),
           if (horizontalCount == 1)
             ListView(
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               children: children.map((child) {
                 return child;
               }).toList(),
@@ -56,7 +57,7 @@ class AppCategory extends StatelessWidget {
           else
             GridView.count(
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               crossAxisCount: horizontalCount,
               children: children.map((child) {
                 return child;
