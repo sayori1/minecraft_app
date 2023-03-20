@@ -52,4 +52,6 @@ class SelectedGameController extends GetxController {
           Get.find<SelectedGameController>().game.id.toString());
     }
   }
+
+  Future<void> openInMinecraft() async {}
 }
