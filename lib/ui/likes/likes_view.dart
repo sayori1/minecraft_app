@@ -15,7 +15,7 @@ class LikesView extends StatelessWidget {
         builder: (model) {
           List<Widget> children = model.likedGames
               .map((e) => SmallCard(
-                  onTap: () {},
+                  onTap: () => model.onTapGame(e),
                   downloads: e.installAmount,
                   image: e.logo,
                   title: e.title,
@@ -35,26 +35,30 @@ class LikesView extends StatelessWidget {
                   onPressed: () {},
                 ),
               ),
-              body: Stack(
-                children: [
-                  Column(
-                    children: [
-                      SizedBox(height: 20),
-                      Expanded(
-                        child: SingleChildScrollView(
-                          child: GridView.count(
-                            crossAxisSpacing: 10,
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            crossAxisCount: 2,
-                            children: children,
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              ));
+              body: model.isBusy.value
+                  ? Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : Stack(
+                      children: [
+                        Column(
+                          children: [
+                            SizedBox(height: 20),
+                            Expanded(
+                              child: SingleChildScrollView(
+                                child: GridView.count(
+                                  crossAxisSpacing: 10,
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  crossAxisCount: 2,
+                                  children: children,
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ));
         });
   }
 }

@@ -40,16 +40,7 @@ class RootView extends StatelessWidget {
               selectedItemColor: Colors.blue,
               unselectedItemColor: Colors.blue.withOpacity(0.5),
               currentIndex: model.selectedTab.value,
-              onTap: (index) async {
-                if (index == 0) Get.toNamed(AppLinks.main, id: 0);
-                if (index == 1) {
-                  if (Get.isRegistered<LikesController>())
-                    Get.find<LikesController>().load();
-                  Get.toNamed(AppLinks.likes, id: 0);
-                }
-                if (index == 2) Get.toNamed(AppLinks.feedback, id: 0);
-                model.selectedTab.value = index;
-              },
+              onTap: (index) => model.goToTab(index),
               items: [
                 bottonNavBarItem(model, 'assets/icons/home.svg', 0),
                 bottonNavBarItem(model, 'assets/icons/heart_grey.svg', 1),

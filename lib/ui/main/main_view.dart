@@ -18,21 +18,27 @@ class MainView extends StatelessWidget {
       init: MainController(),
       builder: (model) {
         return SafeArea(
-          child: Navigator(
-            key: Get.nestedKey(1),
-            initialRoute: AppLinks.preview,
-            onGenerateRoute: ((settings) {
-              if (settings.name == AppLinks.preview) {
-                return GetPageRoute(page: () => PreviewView());
-              } else if (settings.name == AppLinks.categories) {
-                return GetPageRoute(page: () => CategoriesView());
-              } else if (settings.name == AppLinks.selected_category) {
-                return GetPageRoute(page: () => SelectedCategoryView());
-              } else if (settings.name == AppLinks.selected_game) {
-                return GetPageRoute(page: () => SelectedGameView());
-              }
-            }),
-          ),
+          child: model.response == null
+              ? Center(
+                  child: Padding(
+                  padding: const EdgeInsets.only(top: 200),
+                  child: CircularProgressIndicator(),
+                ))
+              : Navigator(
+                  key: Get.nestedKey(1),
+                  initialRoute: AppLinks.preview,
+                  onGenerateRoute: ((settings) {
+                    if (settings.name == AppLinks.preview) {
+                      return GetPageRoute(page: () => PreviewView());
+                    } else if (settings.name == AppLinks.categories) {
+                      return GetPageRoute(page: () => CategoriesView());
+                    } else if (settings.name == AppLinks.selected_category) {
+                      return GetPageRoute(page: () => SelectedCategoryView());
+                    } else if (settings.name == AppLinks.selected_game) {
+                      return GetPageRoute(page: () => SelectedGameView());
+                    }
+                  }),
+                ),
         );
       },
     );

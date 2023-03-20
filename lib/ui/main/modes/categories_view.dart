@@ -28,18 +28,11 @@ class CategoriesView extends StatelessWidget {
             ),
           ),
           body: SingleChildScrollView(
-            child: model.response != null
-                ? Column(
-                    children: [
-                      Common.categories(model, 0),
-                    ],
-                  )
-                : Center(
-                    child: Padding(
-                    padding: const EdgeInsets.only(top: 200),
-                    child: CircularProgressIndicator(),
-                  )),
-          ));
+              child: Column(
+            children: [
+              Common.categories(model, 0),
+            ],
+          )));
     });
   }
 }

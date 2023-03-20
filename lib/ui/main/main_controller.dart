@@ -14,6 +14,7 @@ enum mode { preview, categories, selectedCategory, selectedGame }
 
 class MainController extends GetxController {
   Enum selectedMode = mode.preview;
+  List<Enum> navigationStack = [];
 
   MainResponse? response;
 
