@@ -12,10 +12,13 @@ import 'package:flutter_application/utils/utils.dart';
 import 'package:get/get.dart';
 
 class Common {
-  static Builder categories(MainController model, start, [int? end]) {
+  static Builder categories(List<Category> allCategories,
+      {int start = 0,
+      int? end,
+      required Function(Game) onGameTap,
+      required Function(Category) onCategoryTap}) {
     return Builder(builder: ((context) {
-      List<Category> categories =
-          model.response!.categories.sublist(start, end);
+      List<Category> categories = allCategories.sublist(start, end);
 
       return Column(children: [
         ...categories.map((e) {
@@ -25,7 +28,7 @@ class Common {
               children: e.gamesTop
                   .sublist(0, 2)
                   .map((e) => SmallCard(
-                      onTap: () => model.goToGame(e),
+                      onTap: () => onGameTap(e),
                       downloads: e.installAmount,
                       image: e.logo,
                       title: e.title,
@@ -37,21 +40,20 @@ class Common {
                   .toList(),
               buttonText: "Показать все",
               onTap: () {
-                model.selectedCategory = e;
-                model.goTo(mode.selectedCategory);
+                onCategoryTap(e);
               });
         }).toList()
       ]);
     }));
   }
 
-  static Builder firstCategory(MainController model) {
+  static Builder fullCategory(Category category,
+      {required Function(Game) onGameTap, required Function onButtonTap}) {
     return Builder(builder: ((context) {
-      Category category = model.response!.categories.first;
-      List<Widget> children = model.response!.categories.first.gamesTop
+      List<Widget> children = category.gamesTop
           .map((e) => AppCard(
               onTap: () {
-                model.goToGame(e);
+                onGameTap(e);
               },
               image: e.logo,
               title: e.title,
@@ -68,7 +70,7 @@ class Common {
           children: children,
           buttonText: 'Еще категории',
           onTap: () {
-            model.goTo(mode.categories);
+            onButtonTap();
           });
     }));
   }

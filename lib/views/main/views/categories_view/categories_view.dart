@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/constants/colors.dart';
 import 'package:flutter_application/models/base/category.dart';
+import 'package:flutter_application/models/base/game.dart';
 import 'package:flutter_application/views/main/main_controller.dart';
 import 'package:flutter_application/views/main/views/categories_view/categories_controller.dart';
 import 'package:flutter_application/views/main/widgets/card.dart';
@@ -15,25 +16,29 @@ class CategoriesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<CategoriesController>(builder: (model) {
-      return Scaffold(
-          appBar: AppBar(
-            centerTitle: true,
-            title: Text('Категории'),
-            shadowColor: Colors.transparent,
-            backgroundColor: Pallete.blue,
-            leading: BackButton(
-              onPressed: () {
-                model.back();
-              },
-            ),
-          ),
-          body: SingleChildScrollView(
-              child: Column(
-            children: [
-              Common.categories(model, 0),
-            ],
-          )));
-    });
+    return GetBuilder<CategoriesController>(
+        init: CategoriesController(),
+        builder: (model) {
+          return Scaffold(
+              appBar: AppBar(
+                centerTitle: true,
+                title: Text('Категории'),
+                shadowColor: Colors.transparent,
+                backgroundColor: Pallete.blue,
+                leading: BackButton(
+                  onPressed: () {
+                    Get.back(id: 1);
+                  },
+                ),
+              ),
+              body: SingleChildScrollView(
+                  child: Column(
+                children: [
+                  Common.categories(model.categories,
+                      onGameTap: (Game game) {},
+                      onCategoryTap: (Category category) {}),
+                ],
+              )));
+        });
   }
 }

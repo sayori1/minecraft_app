@@ -22,8 +22,7 @@ class LikesController extends GetxController {
   Future load() async {
     isBusy = true.obs;
     likes = await LikedRepository.getList();
-    likedGames =
-        await Future.wait(likes.map((e) => GameAPI.getGame(e)).toList());
+    likedGames = await Future.wait(likes.map((e) => GameAPI.get(e)).toList());
     isBusy = false.obs;
     update();
   }

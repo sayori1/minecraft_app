@@ -7,7 +7,7 @@ import 'package:flutter_application/models/base/game.dart';
 import 'package:http/http.dart';
 
 class GameAPI {
-  static Future<Game> getGame(String id) async {
+  static Future<Game> get(String id) async {
     dynamic json = await API.httpGet('game/view', {'id': id});
     return Game.fromJson(json);
   }
