@@ -5,23 +5,14 @@ import 'package:flutter_application/constants/colors.dart';
 import 'package:flutter_application/constants/text_styles.dart';
 import 'package:flutter_application/main.dart';
 import 'package:flutter_application/models/base/game.dart';
-import 'package:flutter_application/repositories/dowloaded_repository.dart';
 import 'package:flutter_application/repositories/liked_repository.dart';
-import 'package:flutter_application/services/downloader_service.dart';
 import 'package:flutter_application/views/main/common.dart';
-import 'package:flutter_application/views/main/main_controller.dart';
 import 'package:flutter_application/views/main/views/selected_game/selected_game_controller.dart';
-import 'package:flutter_application/views/main/views/selected_game/views/feedback_dialog_view.dart';
-import 'package:flutter_application/views/main/views/selected_game/views/rating_dialog_view.dart';
-import 'package:flutter_application/views/main/widgets/card.dart';
 import 'package:flutter_application/views/main/widgets/colored_category.dart';
-import 'package:flutter_application/utils/utils.dart';
 import 'package:flutter_application/widgets/like_button.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-
-import 'views/downloaded_dialog_view.dart';
 
 class SelectedGameView extends StatelessWidget {
   final Game game;
@@ -34,24 +25,7 @@ class SelectedGameView extends StatelessWidget {
         autoRemove: false,
         init: SelectedGameController(game: game),
         builder: (model) {
-/*           if (false) {
-            return const Center(
-                child: Padding(
-              padding: EdgeInsets.only(top: 200),
-              child: CircularProgressIndicator(),
-            ));
-          } */
-
-          Widget card = AppCard(
-              onTap: () => {},
-              image: model.game.logo,
-              title: model.game.title,
-              category: model.game.type,
-              downloads: model.game.installAmount,
-              grade: model.game.rating.toDouble(),
-              size: '${Utils.bytesToMegabytes(model.game.file.size)} MB',
-              version: 'VER: 1,5');
-
+          Widget card = Common.gameCard(game, (game) => null);
           return Scaffold(
               appBar: AppBar(
                 centerTitle: true,
@@ -93,9 +67,7 @@ class SelectedGameView extends StatelessWidget {
                 MaterialButton(
                   color: Pallete.blue,
                   onPressed: () {
-                    Get.find<DownloaderService>()
-                        .startDownloading(model.game.file.url);
-                    showDownloadDialog();
+                    model.showDownloadDialog();
                   },
                   child: const Text(
                     'Установить',
@@ -106,7 +78,7 @@ class SelectedGameView extends StatelessWidget {
                 ),
                 MaterialButton(
                   color: Pallete.white,
-                  onPressed: () => showRatingDialog(),
+                  onPressed: () => model.showRatingDialog(),
                   child: const Text(
                     'Оценить приложение',
                     style: TextStyle(
@@ -119,7 +91,7 @@ class SelectedGameView extends StatelessWidget {
                   Html(data: model.game.description!),
                 MaterialButton(
                   color: Pallete.red,
-                  onPressed: () => showFeedbackDialog(model),
+                  onPressed: () => model.showFeedbackDialog(),
                   child: const Text(
                     'Не работает карта/мод/скин?',
                     style: TextStyle(
@@ -178,28 +150,5 @@ class SelectedGameView extends StatelessWidget {
           ),
           const SizedBox(height: 10),
         ]));
-  }
-
-  void showFeedbackDialog(SelectedGameController model) {
-    Get.dialog(
-      const FeedbackDialog(),
-    );
-  }
-
-  void showRatingDialog() {
-    Get.dialog(
-      const RatingDialog(),
-    );
-  }
-
-  Future<void> showDownloadDialog() async {
-    bool result = await Get.dialog(
-      const DownloadDialog(),
-    );
-    if (result) {
-      Get.find<MainController>().isDownloaded.value = true;
-      DownloadRepository.addDownloaded(
-          Get.find<MainController>().selectedGame!.id.toString());
-    }
   }
 }

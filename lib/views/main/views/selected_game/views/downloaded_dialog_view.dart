@@ -3,7 +3,7 @@ import 'package:flutter_application/constants/colors.dart';
 import 'package:flutter_application/constants/text_styles.dart';
 import 'package:flutter_application/services/downloader_service.dart';
 import 'package:flutter_application/utils/utils.dart';
-import 'package:flutter_application/views/main/main_controller.dart';
+import 'package:flutter_application/views/main/views/selected_game/selected_game_controller.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:get/get.dart';
 
@@ -45,7 +45,7 @@ class DownloadDialog extends StatelessWidget {
   }
 
   Widget downloadingState(DownloaderService model) {
-    return Column(children: [
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
         'Скачивание...',
         style: AppTextStyles.interSemiBold16,
@@ -53,7 +53,7 @@ class DownloadDialog extends StatelessWidget {
       ),
       const SizedBox(height: 10),
       Text(
-        "${Utils.bytesToMegabytes(Get.find<MainController>().selectedGame!.file.size)} MB",
+        "${Utils.bytesToMegabytes(Get.find<SelectedGameController>().game.file.size)} MB",
         style: AppTextStyles.interSemiBold16.copyWith(color: Pallete.blue),
         textAlign: TextAlign.right,
       ),
@@ -78,7 +78,7 @@ class DownloadDialog extends StatelessWidget {
   }
 
   Widget completedState(DownloaderService model) {
-    return Column(children: [
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
         'Скачано',
         style: AppTextStyles.interSemiBold16,
@@ -86,7 +86,7 @@ class DownloadDialog extends StatelessWidget {
       ),
       const SizedBox(height: 10),
       Text(
-        "${Utils.bytesToMegabytes(Get.find<MainController>().selectedGame!.file.size)} MB",
+        "${Utils.bytesToMegabytes(Get.find<SelectedGameController>().game.file.size)} MB",
         style: AppTextStyles.interSemiBold16.copyWith(color: Pallete.blue),
         textAlign: TextAlign.right,
       ),

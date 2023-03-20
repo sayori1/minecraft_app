@@ -13,7 +13,7 @@ class DownloaderService extends GetxController {
   final ReceivePort _port = ReceivePort();
 
   RxString currentTask = RxString("");
-  Rx<DownloadTaskStatus> status = Rx(DownloadTaskStatus.undefined);
+  Rx<DownloadTaskStatus> status = Rx(DownloadTaskStatus.running);
   RxInt step = RxInt(0);
 
   @override
@@ -24,7 +24,7 @@ class DownloaderService extends GetxController {
         _port.sendPort, 'downloader_send_port');
     _port.listen((dynamic data) {
       currentTask.value = data[0];
-      status.value = data[1];
+      status.value = DownloadTaskStatus(data[1]);
       step.value = data[2];
       update();
     });
@@ -64,6 +64,6 @@ class DownloaderService extends GetxController {
       String id, DownloadTaskStatus status, int progress) {
     final SendPort? send =
         IsolateNameServer.lookupPortByName('downloader_send_port');
-    send!.send([id, status, progress]);
+    send!.send([id, status.value, progress]);
   }
 }
