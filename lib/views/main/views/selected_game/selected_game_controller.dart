@@ -6,7 +6,7 @@ import 'package:flutter_application/api/game.dart';
 import 'package:flutter_application/models/base/game.dart';
 import 'package:flutter_application/repositories/dowloaded_repository.dart';
 import 'package:flutter_application/repositories/liked_repository.dart';
-import 'package:flutter_application/services/apps_service.dart';
+import 'package:flutter_application/services/app_service.dart';
 import 'package:flutter_application/services/downloader_service.dart';
 import 'package:flutter_application/views/main/views/selected_game/views/downloaded_dialog_view.dart';
 import 'package:flutter_application/views/main/views/selected_game/views/feedback_dialog_view.dart';
@@ -40,7 +40,7 @@ class SelectedGameController extends GetxController {
     );
     if (feedbackText.text.isNotEmpty) {
       GameAPI.report(game.id.toString(), feedbackText.text,
-          AppsService.minecraft?.versionName ?? 'not installed');
+          AppService.minecraft?.versionName ?? 'not installed');
     }
   }
 
@@ -84,7 +84,7 @@ class SelectedGameController extends GetxController {
   }
 
   Future<void> openInMinecraft() async {
-    if (AppsService.minecraft == null || true) {
+    if (AppService.minecraft == null) {
       Get.snackbar('Ошибка',
           'На вашем устройстве не установлен Minecraft PE, либо его версия устарела. Пожалуйста, установите игру и попробуйте снова',
           backgroundColor: Colors.white, duration: 10.seconds);

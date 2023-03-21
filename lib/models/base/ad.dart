@@ -8,17 +8,22 @@ class Ad {
   String interRewardUid;
   String goldRewardUid;
   String mrecUid;
+
   int countInter;
   int countReview;
   int countReviewFact;
   int countMrec;
+  int countMrecMain;
+  int countMrecMainMax;
+
   Type adType;
   bool enableBanner;
   bool enableMrec;
   bool enableNative;
+  bool enableNativePreload;
   bool enableMrecList;
   bool enableMrecGamePage;
-  bool enableNativePreload;
+  bool enableMrecMain;
   bool enableOpen;
 
   Ad({
@@ -41,6 +46,9 @@ class Ad {
     required this.enableMrecGamePage,
     required this.enableNativePreload,
     required this.enableOpen,
+    required this.countMrecMain,
+    required this.countMrecMainMax,
+    required this.enableMrecMain,
   });
 
   factory Ad.fromJson(Map<String, dynamic> json) {
@@ -64,6 +72,9 @@ class Ad {
       enableMrecGamePage: json['enable_mrec_game_page'],
       enableNativePreload: json['enable_native_preload'],
       enableOpen: json['enable_open'],
+      countMrecMain: json['count_mrec_main'],
+      countMrecMainMax: json['count_mrec_main_max'],
+      enableMrecMain: json['enable_mrec_main'],
     );
   }
 

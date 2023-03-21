@@ -9,6 +9,7 @@ import 'package:flutter_application/models/base/game.dart';
 import 'package:flutter_application/models/responses/main.dart';
 import 'package:flutter_application/repositories/dowloaded_repository.dart';
 import 'package:flutter_application/repositories/liked_repository.dart';
+import 'package:flutter_application/services/ad_service.dart';
 import 'package:get/get.dart';
 
 enum MODE { preview, categories, selectedCategory, selectedGame }
@@ -18,18 +19,23 @@ class MainController extends GetxController {
 
   MainResponse? response;
   Ad? ad;
-  RxInt pageCount = 0.obs;
 
   @override
   void onInit() async {
     super.onInit();
     response = await ApplicationAPI.getMain();
     ad = response?.application.ad;
+
+    await Get.putAsync(() async {
+      final instance = AdService(ad: ad!);
+      await instance.onInit();
+      return instance;
+    }, permanent: true);
+
     update();
   }
 
   void goTo(Enum mode, {addToStack = true}) {
-    pageCount.value += 1;
     if (addToStack) navigationStack.add(mode);
     if (mode == MODE.preview) Get.toNamed(AppLinks.preview, id: 1);
     if (mode == MODE.categories) Get.toNamed(AppLinks.categories, id: 1);

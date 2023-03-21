@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:appcheck/appcheck.dart';
 import 'package:flutter/material.dart';
 
-class AppsService {
+class AppService {
   static List<AppInfo> installedApps = [];
   static AppInfo? minecraft;
   static Future<void> fetchApps() async {

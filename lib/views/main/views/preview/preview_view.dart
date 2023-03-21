@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application/main.dart';
 import 'package:flutter_application/models/base/category.dart';
 import 'package:flutter_application/models/base/game.dart';
+import 'package:flutter_application/services/ad_service.dart';
 import 'package:flutter_application/views/main/main_controller.dart';
 import 'package:flutter_application/views/main/common.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class PreviewView extends StatelessWidget {
   const PreviewView({super.key});
@@ -16,6 +18,12 @@ class PreviewView extends StatelessWidget {
         child: model.response != null
             ? Column(
                 children: [
+                  if (Get.isRegistered<AdService>())
+                    Container(
+                      height: 55.0,
+                      alignment: Alignment.center,
+                      child: AdWidget(ad: Get.find<AdService>().nativeAd!),
+                    ),
                   Common.fullCategory(model.response!.categories.first,
                       onGameTap: (Game game) {
                     Get.toNamed(AppLinks.selectedGame, id: 1, arguments: game);

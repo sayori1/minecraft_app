@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/constants/colors.dart';
-import 'package:flutter_application/services/apps_service.dart';
+import 'package:flutter_application/services/app_service.dart';
 import 'package:flutter_application/services/downloader_service.dart';
 import 'package:flutter_application/views/root/root_view.dart';
 import 'package:get/get.dart';
@@ -16,7 +16,7 @@ Future<void> init() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   Get.put(DownloaderService());
-  await AppsService.fetchApps();
+  await AppService.fetchApps();
   Get.config(
     defaultPopGesture: true,
     enableLog: true,
