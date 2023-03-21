@@ -18,7 +18,8 @@ class PreviewView extends StatelessWidget {
         child: model.response != null
             ? Column(
                 children: [
-                  if (Get.isRegistered<AdService>())
+                  SizedBox(height: 30),
+                  if (Get.isRegistered<AdService>() || true)
                     Container(
                       height: 55.0,
                       alignment: Alignment.center,

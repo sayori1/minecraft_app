@@ -31,7 +31,6 @@ class MainController extends GetxController {
       await instance.onInit();
       return instance;
     }, permanent: true);
-
     update();
   }
 
