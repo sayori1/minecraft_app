@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:isolate';
 import 'dart:ui';
 
@@ -35,13 +36,13 @@ class DownloaderService extends GetxController {
     super.onInit();
   }
 
-  Future<String?> startDownloading(String url, [String? fileName]) async {
+  Future<String?> startDownloading(String url, String name) async {
     return FlutterDownloader.enqueue(
       url: url,
-      fileName: fileName,
       saveInPublicStorage: true,
+      fileName: name,
       headers: {}, // optional: header send with url (auth token etc)
-      savedDir: (await getTemporaryDirectory()).path,
+      savedDir: (await getTemporaryDirectory()).absolute.path,
       showNotification:
           true, // show download progress in status bar (for Android)
       openFileFromNotification:
@@ -65,5 +66,19 @@ class DownloaderService extends GetxController {
     final SendPort? send =
         IsolateNameServer.lookupPortByName('downloader_send_port');
     send!.send([id, status.value, progress]);
+  }
+
+  static Future<bool> isDownloaded(String url) async {
+    List<DownloadTask>? tasks = await FlutterDownloader.loadTasks();
+    DownloadTask? task = tasks!.firstWhere((e) => e.url == url);
+    return task != null;
+  }
+
+  static Future<void> open(String url) async {
+    List<DownloadTask>? tasks = await FlutterDownloader.loadTasks();
+    DownloadTask? task = tasks!.firstWhere((e) => e.url == url);
+    if (task != null) {
+      FlutterDownloader.open(taskId: task.taskId);
+    }
   }
 }

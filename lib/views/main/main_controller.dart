@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application/api/application.dart';
 import 'package:flutter_application/main.dart';
+import 'package:flutter_application/models/base/ad.dart';
 import 'package:flutter_application/models/base/category.dart';
 import 'package:flutter_application/models/base/game.dart';
 import 'package:flutter_application/models/responses/main.dart';
@@ -14,22 +17,19 @@ class MainController extends GetxController {
   List<Enum> navigationStack = [MODE.preview];
 
   MainResponse? response;
-
-  Category? selectedCategory;
-
-  Game? selectedGame;
-  RxBool isDownloaded = RxBool(false);
-  RxBool isLiked = RxBool(false);
-  TextEditingController feedBackText = TextEditingController();
+  Ad? ad;
+  RxInt pageCount = 0.obs;
 
   @override
   void onInit() async {
     super.onInit();
     response = await ApplicationAPI.getMain();
+    ad = response?.application.ad;
     update();
   }
 
   void goTo(Enum mode, {addToStack = true}) {
+    pageCount.value += 1;
     if (addToStack) navigationStack.add(mode);
     if (mode == MODE.preview) Get.toNamed(AppLinks.preview, id: 1);
     if (mode == MODE.categories) Get.toNamed(AppLinks.categories, id: 1);
@@ -47,25 +47,4 @@ class MainController extends GetxController {
       goTo(MODE.preview, addToStack: false);
     }
   }
-
-  void goToGame(Game game) async {
-    isDownloaded.value = false;
-    isLiked.value = false;
-
-    if (await DownloadRepository.isDownloaded(game.id.toString())) {
-      isDownloaded.value = true;
-    }
-
-    if (await LikedRepository.isLiked(game.id.toString())) {
-      isLiked.value = true;
-    }
-
-    selectedGame = game;
-    goTo(MODE.selectedGame);
-    update();
-  }
-
-  void sendFeedback() {}
-
-  void sendLike() {}
 }

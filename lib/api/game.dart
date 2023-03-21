@@ -7,20 +7,22 @@ class GameAPI {
     return Game.fromJson(json);
   }
 
-  static Future<Game> like(String id) async {
+  static Future<void> like(String id) async {
     dynamic json = await API.httpPost('game/like', {'id': id});
-    return Game.fromJson(json);
   }
 
-  static Future<Game> install(String id) async {
+  static Future<void> install(String id) async {
     dynamic json = await API.httpPost('game/install', {'id': id});
-    return Game.fromJson(json);
   }
 
-  static Future<Game> report(
+  static Future<void> report(
       String id, String? reportText, String? version) async {
     dynamic json = await API.httpPost('game/report', {'id': id},
         {"report_text": reportText, "minecraft_version": version});
-    return Game.fromJson(json);
+  }
+
+  static Future<void> request(String? reportText, {int ad = 1}) async {
+    dynamic json = await API.httpPost(
+        'game/request', {}, {"request_text": reportText, "disable_ad": ad});
   }
 }

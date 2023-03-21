@@ -8,10 +8,10 @@ class Ad {
   String interRewardUid;
   String goldRewardUid;
   String mrecUid;
-  String countInter;
-  String countReview;
-  String countReviewFact;
-  String countMrec;
+  int countInter;
+  int countReview;
+  int countReviewFact;
+  int countMrec;
   Type adType;
   bool enableBanner;
   bool enableMrec;

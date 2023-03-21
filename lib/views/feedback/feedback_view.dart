@@ -83,7 +83,7 @@ class FeedbackView extends StatelessWidget {
                                 MaterialButton(
                                   height: 50,
                                   color: Pallete.blue,
-                                  onPressed: () => {},
+                                  onPressed: model.sendFeedback,
                                   child: const Text(
                                     'Отправить',
                                     style: TextStyle(

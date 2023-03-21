@@ -19,6 +19,8 @@ dependencies:
   shared_preferences:
   flutter_html:
   appcheck:
+  open_file:
+  google_mobile_ads:
 
   cupertino_icons: ^1.0.2
 

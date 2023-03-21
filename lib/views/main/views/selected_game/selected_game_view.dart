@@ -37,20 +37,12 @@ class SelectedGameView extends StatelessWidget {
                 ),
                 actions: [
                   LikeButton(
-                      isLiked: model.isLiked.value,
-                      onTap: (bool value) {
-                        if (value) {
-                          LikedRepository.addLiked(model.game.id.toString());
-                        }
-                        if (!value) {
-                          LikedRepository.deleteLiked(model.game.id.toString());
-                        }
-                      })
+                      isLiked: model.isLiked.value, onTap: model.likeButtonTap)
                 ],
               ),
               body: SingleChildScrollView(
                   child: Obx(() => (model.isDownloaded.value)
-                      ? downloadedState()
+                      ? downloadedState(model)
                       : defaultState(card, model))));
         });
   }
@@ -114,7 +106,7 @@ class SelectedGameView extends StatelessWidget {
     );
   }
 
-  Container downloadedState() {
+  Container downloadedState(SelectedGameController model) {
     return Container(
         padding: const EdgeInsets.all(8),
         decoration: const BoxDecoration(
@@ -140,7 +132,7 @@ class SelectedGameView extends StatelessWidget {
           const SizedBox(height: 10),
           MaterialButton(
             color: Pallete.blue,
-            onPressed: () {},
+            onPressed: model.openInMinecraft,
             child: const Text(
               'Открыть в Minecraft',
               style: TextStyle(

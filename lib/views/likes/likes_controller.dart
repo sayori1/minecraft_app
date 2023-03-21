@@ -1,4 +1,5 @@
 import 'package:flutter_application/api/game.dart';
+import 'package:flutter_application/main.dart';
 import 'package:flutter_application/models/base/game.dart';
 import 'package:flutter_application/repositories/liked_repository.dart';
 import 'package:flutter_application/views/main/main_controller.dart';
@@ -28,6 +29,6 @@ class LikesController extends GetxController {
   void onTapGame(Game game) async {
     await Get.find<RootController>().goToTab(0);
     await Future.delayed(100.milliseconds);
-    Get.find<MainController>().goToGame(game);
+    await Get.toNamed(AppLinks.selectedGame, id: 1, arguments: game);
   }
 }

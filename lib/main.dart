@@ -16,7 +16,7 @@ Future<void> init() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   Get.put(DownloaderService());
-  AppsService.fetchApps();
+  await AppsService.fetchApps();
   Get.config(
     defaultPopGesture: true,
     enableLog: true,
