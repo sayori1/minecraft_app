@@ -15,8 +15,6 @@ class SelectedCategoryView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.find<AdService>().visitNewPage();
-
     return GetBuilder<SelectedCategoryController>(
         init: SelectedCategoryController(category: category),
         builder: (model) {

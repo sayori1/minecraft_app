@@ -21,6 +21,7 @@ dependencies:
   appcheck:
   open_file:
   google_mobile_ads:
+  flutter_yandex_ads:
 
   cupertino_icons: ^1.0.2
 

@@ -14,8 +14,6 @@ class CategoriesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.find<AdService>().visitNewPage();
-
     return GetBuilder<CategoriesController>(
         init: CategoriesController(),
         builder: (model) {

@@ -23,6 +23,8 @@ class SelectedGameController extends GetxBaseViewModel {
   RxBool isLiked = RxBool(false);
   RxBool isDownloaded = RxBool(false);
   RxBool isJustDownloaded = RxBool(false);
+  RxBool isRated = RxBool(false);
+
   TextEditingController feedbackText = TextEditingController();
 
   Widget? ad;
@@ -38,6 +40,7 @@ class SelectedGameController extends GetxBaseViewModel {
       ad = await Get.find<AdService>().asyncNativeAd();
       isLiked.value = await LikedRepository.isLiked(game.id.toString());
       isDownloaded.value = await DownloaderService.isDownloaded(game.file.url);
+      isRated.value = await RatedRepository.isRated(game.id.toString());
 
       game = await GameAPI.get(game.id.toString());
       dialogAd = await Get.find<AdService>().asyncNativeAd();
@@ -46,13 +49,15 @@ class SelectedGameController extends GetxBaseViewModel {
   }
 
   void showFeedbackDialog() async {
-    await Get.dialog(
+    Get.dialog(
       const FeedbackDialog(),
     );
-    if (feedbackText.text.isNotEmpty) {
-      GameAPI.report(game.id.toString(), feedbackText.text,
-          AppService.minecraft?.versionName ?? 'not installed');
-    }
+  }
+
+  void showRatingDialog() {
+    Get.dialog(
+      const RatingDialog(),
+    );
   }
 
   void likeButtonTap(bool value) {
@@ -64,12 +69,6 @@ class SelectedGameController extends GetxBaseViewModel {
     }
     GameAPI.like(game.id.toString());
     isLiked.value = value;
-  }
-
-  void showRatingDialog() {
-    Get.dialog(
-      const RatingDialog(),
-    );
   }
 
   String getFileName() {
@@ -90,8 +89,6 @@ class SelectedGameController extends GetxBaseViewModel {
       isDownloaded.value = true;
       isJustDownloaded.value = true;
       GameAPI.install(game.id.toString());
-      DownloadRepository.addDownloaded(
-          Get.find<SelectedGameController>().game.id.toString());
     }
   }
 
@@ -105,5 +102,21 @@ class SelectedGameController extends GetxBaseViewModel {
     }
   }
 
-  void sendRating() {}
+  void sendRating() {
+    Get.back();
+    Get.snackbar('Ваша оценка учтена!', '',
+        backgroundColor: Colors.white, duration: 3.seconds);
+    RatedRepository.addRated(game.id.toString());
+    isRated.value = true;
+  }
+
+  void sendFeedback() {
+    Get.back();
+    if (feedbackText.text.isNotEmpty) {
+      GameAPI.report(game.id.toString(), feedbackText.text,
+          AppService.minecraft?.versionName ?? 'not installed');
+    }
+    Get.snackbar('Отправлено!', '',
+        backgroundColor: Colors.white, duration: 3.seconds);
+  }
 }

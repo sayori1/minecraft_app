@@ -27,10 +27,6 @@ class _MainViewState extends State<MainView> {
 
   @override
   Widget build(BuildContext context) {
-    if (Get.isRegistered<AdService>()) {
-      Get.find<AdService>().visitNewPage();
-    }
-
     return GetBuilder<MainController>(
       init: MainController(),
       autoRemove: false,

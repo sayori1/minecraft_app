@@ -1,5 +1,6 @@
 import 'package:flutter_application/main.dart';
 import 'package:flutter_application/models/base/game.dart';
+import 'package:flutter_application/services/ad_service.dart';
 import 'package:flutter_application/views/likes/likes_controller.dart';
 import 'package:flutter_application/views/main/views/preview/preview_controller.dart';
 import 'package:get/get.dart';
@@ -12,6 +13,7 @@ class RootController extends GetxController {
 
   void goToTab(int index, {addToStack = true}) async {
     if (index == selectedTab.value) return;
+    Get.find<AdService>().visitNewPage();
     if (addToStack) stack.add(Tabs.values[index]);
 
     if (index == Tabs.main.index) {

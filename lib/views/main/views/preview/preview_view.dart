@@ -20,8 +20,6 @@ class PreviewView extends StatefulWidget {
 class _PreviewViewState extends State<PreviewView> {
   @override
   Widget build(BuildContext context) {
-    Get.find<AdService>().visitNewPage();
-
     return GetBuilder<PreviewController>(
         init: PreviewController(),
         builder: (model) {

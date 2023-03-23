@@ -39,6 +39,8 @@ class MainController extends GetxBaseViewModel {
   }
 
   Route<dynamic>? onGenerateRoute(RouteSettings settings) {
+    Get.find<AdService>().visitNewPage();
+
     if (settings.name == AppLinks.preview) {
       return GetPageRoute(page: () => const PreviewView(), settings: settings);
     } else if (settings.name == AppLinks.categories) {

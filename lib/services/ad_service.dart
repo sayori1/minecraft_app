@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/models/base/ad.dart' as App;
 import 'package:flutter_application/views/main/main_controller.dart';
+import 'package:flutter_yandex_ads/yandex.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
@@ -19,6 +20,8 @@ class AdService extends GetxController {
   Future<void> onInit() async {
     super.onInit();
     MobileAds.instance.initialize();
+    FlutterYandexAds.initialize();
+    debugger();
   }
 
   void loadInterstitial() {

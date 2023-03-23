@@ -11,8 +11,6 @@ class FeedbackView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.find<AdService>().visitNewPage();
-
     return GetBuilder<FeedbackController>(
         key: key,
         init: FeedbackController(),

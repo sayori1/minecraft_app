@@ -12,8 +12,6 @@ class LikesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.find<AdService>().visitNewPage();
-
     return GetBuilder<LikesController>(
         key: key,
         init: LikesController(),

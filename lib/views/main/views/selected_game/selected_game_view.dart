@@ -23,8 +23,6 @@ class SelectedGameView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.find<AdService>().visitNewPage();
-
     return GetBuilder<SelectedGameController>(
         autoRemove: false,
         init: SelectedGameController(game: game),
@@ -91,16 +89,18 @@ class SelectedGameView extends StatelessWidget {
                           ),
                         ),
                       )),
-                MaterialButton(
-                  color: Pallete.white,
-                  onPressed: () => model.showRatingDialog(),
-                  child: const Text(
-                    'Оценить приложение',
-                    style: TextStyle(
-                      color: Pallete.blue,
-                    ),
-                  ),
-                ),
+                Obx(() => model.isRated.value
+                    ? Container()
+                    : MaterialButton(
+                        color: Pallete.white,
+                        onPressed: () => model.showRatingDialog(),
+                        child: const Text(
+                          'Оценить приложение',
+                          style: TextStyle(
+                            color: Pallete.blue,
+                          ),
+                        ),
+                      )),
                 const SizedBox(height: 20),
                 if (model.game.description != null)
                   Html(data: model.game.description!),
