@@ -40,10 +40,16 @@ class SelectedGameView extends StatelessWidget {
                       isLiked: model.isLiked.value, onTap: model.likeButtonTap)
                 ],
               ),
-              body: SingleChildScrollView(
-                  child: Obx(() => (model.isDownloaded.value)
-                      ? downloadedState(model)
-                      : defaultState(card, model))));
+              body: model.isBusy
+                  ? const Center(
+                      child: Padding(
+                      padding: EdgeInsets.only(top: 200),
+                      child: CircularProgressIndicator(),
+                    ))
+                  : SingleChildScrollView(
+                      child: Obx(() => (model.isDownloaded.value)
+                          ? downloadedState(model)
+                          : defaultState(card, model))));
         });
   }
 
@@ -55,6 +61,7 @@ class SelectedGameView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                if (model.ad != null) model.ad!,
                 card,
                 MaterialButton(
                   color: Pallete.blue,

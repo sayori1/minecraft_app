@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/main.dart';
+import 'package:flutter_application/models/base/category.dart';
+import 'package:flutter_application/services/ad_service.dart';
 import 'package:flutter_application/views/main/common.dart';
 import 'package:flutter_application/views/main/views/selected_category/selected_category_controller.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class SelectedCategoryView extends StatelessWidget {
-  const SelectedCategoryView({super.key});
+  final Category category;
+
+  const SelectedCategoryView({super.key, required this.category});
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<SelectedCategoryController>(
-        init: SelectedCategoryController(),
+        init: SelectedCategoryController(category: category),
         builder: (model) {
-          List<Widget> children = model.category!.gamesTop
-              .map((e) => Common.gameCard(
-                  e,
-                  (game) => Get.toNamed(AppLinks.selectedGame,
-                      id: 1, arguments: game)))
-              .toList();
-
           return Scaffold(
             appBar: AppBar(
               centerTitle: true,
@@ -29,15 +27,19 @@ class SelectedCategoryView extends StatelessWidget {
                 },
               ),
             ),
-            body: SingleChildScrollView(
-              child: ListView(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                children: children.map((child) {
-                  return child;
-                }).toList(),
-              ),
-            ),
+            body: model.isBusy
+                ? const Center(
+                    child: Padding(
+                    padding: EdgeInsets.only(top: 200),
+                    child: CircularProgressIndicator(),
+                  ))
+                : SingleChildScrollView(
+                    child: ListView(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: model.children,
+                    ),
+                  ),
           );
         });
   }

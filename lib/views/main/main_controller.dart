@@ -27,9 +27,7 @@ class MainController extends GetxController {
     ad = response?.application.ad;
 
     await Get.putAsync(() async {
-      final instance = AdService(ad: ad!);
-      await instance.onInit();
-      return instance;
+      return AdService(ad: ad!);
     }, permanent: true);
     update();
   }

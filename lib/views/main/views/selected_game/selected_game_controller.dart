@@ -6,6 +6,7 @@ import 'package:flutter_application/api/game.dart';
 import 'package:flutter_application/models/base/game.dart';
 import 'package:flutter_application/repositories/dowloaded_repository.dart';
 import 'package:flutter_application/repositories/liked_repository.dart';
+import 'package:flutter_application/services/ad_service.dart';
 import 'package:flutter_application/services/app_service.dart';
 import 'package:flutter_application/services/downloader_service.dart';
 import 'package:flutter_application/views/main/views/selected_game/views/downloaded_dialog_view.dart';
@@ -22,15 +23,24 @@ class SelectedGameController extends GetxController {
   RxBool isDownloaded = RxBool(false);
   TextEditingController feedbackText = TextEditingController();
 
+  Widget? ad;
+  Widget? dialogAd;
+
+  bool isBusy = false;
+
   SelectedGameController({required this.game});
 
   @override
   void onInit() async {
+    isBusy = true;
+    ad = await Get.find<AdService>().asyncNativeAd();
     isLiked.value = await LikedRepository.isLiked(game.id.toString());
     isDownloaded.value = await DownloaderService.isDownloaded(game.file.url);
 
     game = await GameAPI.get(game.id.toString());
+    dialogAd = await Get.find<AdService>().asyncNativeAd();
     update();
+    isBusy = false;
     super.onInit();
   }
 
@@ -92,4 +102,6 @@ class SelectedGameController extends GetxController {
       DownloaderService.open(game.file.url);
     }
   }
+
+  void sendRating() {}
 }

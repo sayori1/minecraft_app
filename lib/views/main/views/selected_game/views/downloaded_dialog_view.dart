@@ -16,33 +16,64 @@ class DownloadDialog extends StatelessWidget {
       return Center(
         child: Container(
           width: 300,
-          height: 172,
+          height: 340,
           decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(20))),
-          child: Scaffold(
-            resizeToAvoidBottomInset: false,
-            backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-            body: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Padding(
-                padding:
-                    const EdgeInsets.only(left: 12.0, right: 12.0, top: 12.0),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      if (model.status.value == DownloadTaskStatus.complete)
-                        completedState(model)
-                      else
-                        downloadingState(model)
-                    ]),
-              ),
+          child: Center(
+            child: Column(
+              children: [
+                Expanded(
+                  child: Scaffold(
+                    resizeToAvoidBottomInset: false,
+                    backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+                    body: SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            left: 12.0, right: 12.0, top: 12.0),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              if (model.status.value ==
+                                  DownloadTaskStatus.complete)
+                                completedState(model)
+                              else
+                                downloadingState(model)
+                            ]),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10),
+                SizedBox(
+                    height: 160,
+                    child: Scaffold(
+                        body: Get.find<SelectedGameController>().dialogAd!))
+              ],
             ),
           ),
         ),
       );
     });
   }
+
+/*   Widget request(DownloaderService model) {
+    return Column(
+      children: [
+        MaterialButton(
+          color: Pallete.white,
+          onPressed: () => model.showRatingDialog(),
+          child: const Text(
+            'Оценить приложение',
+            style: TextStyle(
+              color: Pallete.blue,
+            ),
+          ),
+        ),
+      ],
+    );
+  } */
 
   Widget downloadingState(DownloaderService model) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [

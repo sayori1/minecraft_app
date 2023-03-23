@@ -55,7 +55,9 @@ class FeedbackDialog extends StatelessWidget {
                           MaterialButton(
                             height: 50,
                             color: Pallete.blue,
-                            onPressed: () => {Get.back()},
+                            onPressed: () {
+                              Get.back();
+                            },
                             child: const Text(
                               'Отправить',
                               style: TextStyle(

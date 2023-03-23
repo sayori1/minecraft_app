@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/constants/keys.dart';
 import 'package:flutter_application/main.dart';
+import 'package:flutter_application/models/base/category.dart';
 import 'package:flutter_application/models/base/game.dart';
 import 'package:flutter_application/views/main/main_controller.dart';
 import 'package:flutter_application/views/main/views/categories_view/categories_view.dart';
@@ -38,7 +39,8 @@ class MainView extends StatelessWidget {
                           settings: settings);
                     } else if (settings.name == AppLinks.selectedCategory) {
                       return GetPageRoute(
-                          page: () => const SelectedCategoryView(),
+                          page: () => SelectedCategoryView(
+                              category: settings.arguments as Category),
                           settings: settings);
                     } else if (settings.name == AppLinks.selectedGame) {
                       return GetPageRoute(

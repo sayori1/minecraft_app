@@ -19,18 +19,13 @@ class PreviewView extends StatelessWidget {
             ? Column(
                 children: [
                   SizedBox(height: 30),
-                  if (Get.isRegistered<AdService>() || true)
-                    Container(
-                      height: 55.0,
-                      alignment: Alignment.center,
-                      child: AdWidget(ad: Get.find<AdService>().nativeAd!),
-                    ),
+                  Get.find<AdService>().syncNativeAdWidget(),
                   Common.fullCategory(model.response!.categories.first,
                       onGameTap: (Game game) {
                     Get.toNamed(AppLinks.selectedGame, id: 1, arguments: game);
                   }, onButtonTap: () {
                     Get.toNamed(AppLinks.categories, id: 1);
-                  }),
+                  }, withAds: false),
                   Common.categories(model.response!.categories, start: 1,
                       onGameTap: (Game game) {
                     Get.toNamed(AppLinks.selectedGame, id: 1, arguments: game);

@@ -43,7 +43,7 @@ class RatingDialog extends StatelessWidget {
                           MaterialButton(
                             height: 50,
                             color: Pallete.blue,
-                            onPressed: () => {},
+                            onPressed: () => {Get.back()},
                             child: const Text(
                               'Отправить',
                               style: TextStyle(
