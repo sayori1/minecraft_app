@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/constants/colors.dart';
 import 'package:flutter_application/constants/text_styles.dart';
+import 'package:get/get.dart';
 
 class ColoredCategory extends StatelessWidget {
   final String categoryName;
@@ -63,10 +64,12 @@ class ColoredCategory extends StatelessWidget {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             crossAxisCount: horizontalCount,
+            crossAxisSpacing: 10,
+            childAspectRatio: 1 / 1.4,
             children: children.map((child) {
               return child;
             }).toList(),
-          ),
+          ).paddingOnly(left: 8, right: 8),
       ],
     );
   }

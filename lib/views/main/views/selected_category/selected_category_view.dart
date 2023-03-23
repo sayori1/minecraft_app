@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/constants/keys.dart';
 import 'package:flutter_application/main.dart';
 import 'package:flutter_application/models/base/category.dart';
 import 'package:flutter_application/services/ad_service.dart';
@@ -14,6 +15,8 @@ class SelectedCategoryView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.find<AdService>().visitNewPage();
+
     return GetBuilder<SelectedCategoryController>(
         init: SelectedCategoryController(category: category),
         builder: (model) {
@@ -33,11 +36,14 @@ class SelectedCategoryView extends StatelessWidget {
                     padding: EdgeInsets.only(top: 200),
                     child: CircularProgressIndicator(),
                   ))
-                : SingleChildScrollView(
-                    child: ListView(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      children: model.children,
+                : Padding(
+                    padding: const EdgeInsets.only(left: 14.0, right: 14.0),
+                    child: SingleChildScrollView(
+                      child: ListView(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        children: model.children,
+                      ),
                     ),
                   ),
           );

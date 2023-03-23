@@ -10,7 +10,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="152dp"
+            android:layout_height="196dp"
             android:orientation="vertical">
 
             <TextView
@@ -24,7 +24,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="138dp"
+                android:layout_height="128dp"
                 android:layout_gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingLeft="0dp"
@@ -33,7 +33,7 @@
                 <ImageView
                     android:id="@+id/iv_list_tile_native_ad_icon"
                     android:layout_width="119dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="117dp"
                     android:layout_gravity="left|center_vertical"
                     android:layout_margin="10px"
                     android:layout_marginStart="16dp"
@@ -45,6 +45,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="7dp"
+                    android:layout_marginBottom="10px"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -81,7 +82,7 @@
                     <TextView
                         android:id="@+id/tv_list_tile_native_ad_body"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="103dp"
                         android:ellipsize="end"
                         android:lines="5"
                         android:maxLines="5"
@@ -89,24 +90,24 @@
                         android:textSize="12sp"
                         tools:text="body" />
 
-                    <Button
-                        android:id="@+id/button2"
-                        android:layout_width="match_parent"
-                        android:layout_height="40px"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_margin="10px"
-                        android:layout_marginBottom="5px"
-                        android:layout_weight="1"
-                        android:background="#2C81E2"
-                        android:padding="10px"
-                        android:text="Установить"
-                        android:textColor="#FFFFFF" />
-
 
                 </LinearLayout>
 
 
             </LinearLayout>
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="match_parent"
+                android:layout_height="40px"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="10px"
+                android:layout_marginBottom="5px"
+                android:layout_weight="1"
+                android:background="#2C81E2"
+                android:padding="10px"
+                android:text="Установить"
+                android:textColor="#FFFFFF" />
 
         </LinearLayout>
 

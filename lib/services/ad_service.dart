@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 import 'dart:math';
 
@@ -9,55 +10,42 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class AdService extends GetxController {
   App.Ad ad;
-  NativeAd? nativeAd;
   AdService({required this.ad});
 
-  RxBool isInited = false.obs;
+  InterstitialAd? interstitialAd;
+  int countOfVisitedPages = 0;
 
   @override
   Future<void> onInit() async {
     super.onInit();
     MobileAds.instance.initialize();
-    nativeAd = NativeAd(
-      adUnitId: ad.nativeUid, //ca-app-pub-3940256099942544/2247696110
-      factoryId: 'listTile',
-      request: AdRequest(),
-      listener: NativeAdListener(
-        // Called when an ad is successfully received.
-        onAdLoaded: (Ad ad) {
-          print('[ads] loaded!' + ad.toString());
-          nativeAd = ad as NativeAd;
-          update();
-        },
-        // Called when an ad request failed.
-        onAdFailedToLoad: (Ad ad, LoadAdError error) {
-          // Dispose the ad here to free resources.
-          ad.dispose();
-          print(
-              '[ads] Ad load failed (code=${error.code} message=${error.message})');
-        },
-        // Called when an ad opens an overlay that covers the screen.
-        onAdOpened: (Ad ad) => print('[ads] Ad opened.'),
-        // Called when an ad removes an overlay that covers the screen.
-        onAdClosed: (Ad ad) => print('[ads] Ad closed.'),
-        // Called when an impression occurs on the ad.
-        onAdImpression: (Ad ad) => print('[ads] Ad impression.'),
-        // Called when a click is recorded for a NativeAd.
-        onAdClicked: (Ad ad) => print('[ads] Ad clicked.'),
-      ),
-    );
-    await nativeAd!.load();
-    isInited = true.obs;
-    update();
   }
 
-  bool showNative(
-      {int? categoryIndex,
-      int? gameIndex,
-      bool isInGamePage = false,
-      bool isInDialog = false}) {
+  void loadInterstitial() {
+    InterstitialAd.load(
+        adUnitId: ad.interUid,
+        request: const AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+          onAdLoaded: (ad) {
+            debugPrint('$ad loaded.');
+            interstitialAd = ad;
+          },
+          onAdFailedToLoad: (LoadAdError error) {
+            debugPrint('InterstitialAd failed to load: $error');
+          },
+        ));
+  }
+
+  bool needToShowNative({
+    int? categoryIndex,
+    int? gameIndex,
+    bool isInGamePage = false,
+    bool isInDialog = false,
+    bool isInMainPage = false,
+  }) {
     if (!ad.enableNative) return false;
 
+    if (isInMainPage) return true; //TO DO add condition from backend
     if (isInGamePage && ad.enableMrecGamePage) return true;
     if (isInDialog && ad.enableMrecMain) return true;
 
@@ -84,54 +72,50 @@ class AdService extends GetxController {
     return false;
   }
 
-  Widget syncNativeAdWidget() {
-    return GetBuilder<AdService>(builder: (model) {
-      if (nativeAd!.responseInfo != null) {
-        return StatefulBuilder(
-          builder: (context, setState) => Container(
-            padding: EdgeInsets.all(5),
-            height: 160.0,
-            decoration:
-                BoxDecoration(border: Border.all(color: Color(0xFF262626))),
-            alignment: Alignment.center,
-            child: AdWidget(ad: nativeAd!),
-          ),
-        );
-      }
-      return Container();
-    });
+  bool needToShowInterstitial() {
+    if (countOfVisitedPages % ad.countInter == 0) return true;
+    return false;
   }
 
   Future<Widget> asyncNativeAd() async {
-    try {
-      NativeAd? _ad;
-      _ad = NativeAd(
-        adUnitId: ad.nativeUid, //ca-app-pub-3940256099942544/2247696110
-        factoryId: 'listTile',
-        request: AdRequest(),
-        listener: NativeAdListener(onAdLoaded: (loadedAd) {
-          _ad = loadedAd as NativeAd;
-        }, onAdFailedToLoad: (loadedAd, error) {
-          debugger();
-        }),
-      );
+    Completer<bool> adLoaded = Completer();
 
-      await _ad!.load();
-      await Future.delayed(
-          200.milliseconds); //cause admob blocks when ad generates often
-      return StatefulBuilder(
-        builder: (context, setState) => Container(
-          padding: EdgeInsets.all(5),
-          height: 160.0,
-          decoration:
-              BoxDecoration(border: Border.all(color: Color(0xFF262626))),
-          alignment: Alignment.center,
-          child: AdWidget(ad: _ad!),
-        ),
-      );
-    } catch (e) {
-      debugger();
+    NativeAd _ad = NativeAd(
+      adUnitId: ad.nativeUid, //ca-app-pub-3940256099942544/2247696110
+      factoryId: 'listTile',
+      request: AdRequest(),
+      listener: NativeAdListener(onAdLoaded: (_) {
+        adLoaded.complete(true);
+      }, onAdFailedToLoad: (_, e) {
+        adLoaded.complete(false);
+      }),
+    );
+
+    await _ad.load();
+    bool result = await adLoaded.future;
+    if (!result) return Container();
+
+    return StatefulBuilder(
+      builder: (context, setState) => Container(
+        padding: EdgeInsets.all(5),
+        height: 200.0,
+        decoration: BoxDecoration(border: Border.all(color: Color(0xFF262626))),
+        alignment: Alignment.center,
+        child: AdWidget(ad: _ad),
+      ),
+    );
+  }
+
+  void callInterstitalShowing() {
+    interstitialAd?.show();
+    loadInterstitial();
+  }
+
+  void visitNewPage() {
+    bool needTo = needToShowInterstitial();
+    countOfVisitedPages += 1;
+    if (needTo) {
+      callInterstitalShowing();
     }
-    return Container();
   }
 }

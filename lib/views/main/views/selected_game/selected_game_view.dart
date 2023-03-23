@@ -2,10 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application/constants/colors.dart';
+import 'package:flutter_application/constants/keys.dart';
 import 'package:flutter_application/constants/text_styles.dart';
 import 'package:flutter_application/main.dart';
 import 'package:flutter_application/models/base/game.dart';
 import 'package:flutter_application/repositories/liked_repository.dart';
+import 'package:flutter_application/services/ad_service.dart';
 import 'package:flutter_application/views/main/common.dart';
 import 'package:flutter_application/views/main/views/selected_game/selected_game_controller.dart';
 import 'package:flutter_application/views/main/widgets/colored_category.dart';
@@ -21,6 +23,8 @@ class SelectedGameView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.find<AdService>().visitNewPage();
+
     return GetBuilder<SelectedGameController>(
         autoRemove: false,
         init: SelectedGameController(game: game),
@@ -47,7 +51,7 @@ class SelectedGameView extends StatelessWidget {
                       child: CircularProgressIndicator(),
                     ))
                   : SingleChildScrollView(
-                      child: Obx(() => (model.isDownloaded.value)
+                      child: Obx(() => (model.isJustDownloaded.value)
                           ? downloadedState(model)
                           : defaultState(card, model))));
         });
@@ -55,6 +59,7 @@ class SelectedGameView extends StatelessWidget {
 
   Column defaultState(Widget card, SelectedGameController model) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Padding(
             padding: const EdgeInsets.all(8.0),
@@ -63,18 +68,29 @@ class SelectedGameView extends StatelessWidget {
               children: [
                 if (model.ad != null) model.ad!,
                 card,
-                MaterialButton(
-                  color: Pallete.blue,
-                  onPressed: () {
-                    model.showDownloadDialog();
-                  },
-                  child: const Text(
-                    'Установить',
-                    style: TextStyle(
-                      color: Pallete.white,
-                    ),
-                  ),
-                ),
+                Obx(() => model.isDownloaded.value
+                    ? MaterialButton(
+                        color: Pallete.blue,
+                        onPressed: model.openInMinecraft,
+                        child: const Text(
+                          'Открыть в Minecraft',
+                          style: TextStyle(
+                            color: Pallete.white,
+                          ),
+                        ),
+                      )
+                    : MaterialButton(
+                        color: Pallete.blue,
+                        onPressed: () {
+                          model.showDownloadDialog();
+                        },
+                        child: const Text(
+                          'Установить',
+                          style: TextStyle(
+                            color: Pallete.white,
+                          ),
+                        ),
+                      )),
                 MaterialButton(
                   color: Pallete.white,
                   onPressed: () => model.showRatingDialog(),
@@ -92,7 +108,7 @@ class SelectedGameView extends StatelessWidget {
                   color: Pallete.red,
                   onPressed: () => model.showFeedbackDialog(),
                   child: const Text(
-                    'Не работает карта/мод/скин?',
+                    'Не работает?',
                     style: TextStyle(
                       color: Pallete.white,
                     ),
@@ -100,15 +116,16 @@ class SelectedGameView extends StatelessWidget {
                 ),
               ],
             )),
-        ColoredCategory(
-            horizontalCount: 2,
-            categoryName: 'Похожее',
-            children: game.similars
-                .map((e) => Common.smallGameCard(
-                    game,
-                    (game) => Get.toNamed(AppLinks.selectedGame,
-                        id: 1, arguments: game)))
-                .toList())
+        if (game.similars.isNotEmpty)
+          ColoredCategory(
+              horizontalCount: 2,
+              categoryName: 'Похожее',
+              children: game.similars
+                  .map((e) => Common.smallGameCard(
+                      game,
+                      (game) => Get.toNamed(AppLinks.selectedGame,
+                          id: 1, arguments: game)))
+                  .toList())
       ],
     );
   }

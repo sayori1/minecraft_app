@@ -73,17 +73,6 @@ class Common {
 
       for (int i = 2; i < category.gamesTop.length; i++) {
         children.add(gameCard(category.gamesTop[i], onGameTap));
-        if (withAds) {
-          if (adService.showNative(gameIndex: i)) {
-            children.add(Container(
-              height: 150.0,
-              decoration:
-                  BoxDecoration(border: Border.all(color: Color(0xFF262626))),
-              alignment: Alignment.center,
-              child: AdWidget(ad: Get.find<AdService>().nativeAd!),
-            ));
-          }
-        }
       }
 
       return AppCategory(

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/constants/colors.dart';
+import 'package:flutter_application/services/ad_service.dart';
 import 'package:flutter_application/views/likes/likes_controller.dart';
 import 'package:flutter_application/views/main/widgets/small_card.dart';
 import 'package:flutter_application/utils/utils.dart';
+import 'package:flutter_application/views/root/root_controller.dart';
 import 'package:get/get.dart';
 
 class LikesView extends StatelessWidget {
@@ -10,6 +12,8 @@ class LikesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.find<AdService>().visitNewPage();
+
     return GetBuilder<LikesController>(
         key: key,
         init: LikesController(),
@@ -33,30 +37,40 @@ class LikesView extends StatelessWidget {
                 shadowColor: Colors.transparent,
                 backgroundColor: Pallete.blue,
                 leading: BackButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.find<RootController>().back();
+                  },
                 ),
               ),
-              body: model.isBusy.value
+              body: model.isBusy
                   ? const Center(
                       child: CircularProgressIndicator(),
                     )
                   : Stack(
                       children: [
-                        Column(
-                          children: [
-                            const SizedBox(height: 20),
-                            Expanded(
-                              child: SingleChildScrollView(
-                                child: GridView.count(
-                                  crossAxisSpacing: 10,
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  crossAxisCount: 2,
-                                  children: children,
+                        Padding(
+                          padding:
+                              const EdgeInsets.only(left: 12.0, right: 12.0),
+                          child: Column(
+                            children: [
+                              const SizedBox(height: 20),
+                              model.ad!,
+                              const SizedBox(height: 20),
+                              Expanded(
+                                child: SingleChildScrollView(
+                                  child: GridView.count(
+                                    crossAxisSpacing: 10,
+                                    shrinkWrap: true,
+                                    childAspectRatio: 1 / 1.4,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    crossAxisCount: 2,
+                                    children: children,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         )
                       ],
                     ));

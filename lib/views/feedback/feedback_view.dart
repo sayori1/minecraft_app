@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/constants/colors.dart';
 import 'package:flutter_application/constants/text_styles.dart';
+import 'package:flutter_application/services/ad_service.dart';
 import 'package:flutter_application/views/feedback/feedback_controller.dart';
+import 'package:flutter_application/views/root/root_controller.dart';
 import 'package:get/get.dart';
 
 class FeedbackView extends StatelessWidget {
@@ -9,6 +11,8 @@ class FeedbackView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.find<AdService>().visitNewPage();
+
     return GetBuilder<FeedbackController>(
         key: key,
         init: FeedbackController(),
@@ -20,7 +24,9 @@ class FeedbackView extends StatelessWidget {
                 shadowColor: Colors.transparent,
                 backgroundColor: Pallete.blue,
                 leading: BackButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.find<RootController>().back();
+                  },
                 ),
               ),
               body: Padding(

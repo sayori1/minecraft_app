@@ -29,7 +29,9 @@ class SmallCard extends StatelessWidget {
     return GestureDetector(
       onTap: () => onTap(),
       child: Container(
-        color: Colors.white,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(5))),
         padding: const EdgeInsets.all(16.0),
         margin: const EdgeInsets.only(bottom: 10),
         child: Column(

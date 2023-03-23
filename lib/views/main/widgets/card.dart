@@ -29,7 +29,9 @@ class AppCard extends StatelessWidget {
     return GestureDetector(
       onTap: () => onTap(),
       child: Container(
-        color: Colors.white,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(12))),
         padding: const EdgeInsets.only(
             left: 16.0, right: 16.0, top: 16.0, bottom: 16.0),
         margin: const EdgeInsets.only(bottom: 10),

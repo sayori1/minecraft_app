@@ -4,10 +4,14 @@ import 'package:flutter_application/api/api.dart';
 import 'package:flutter_application/models/responses/main.dart';
 
 class ApplicationAPI {
+  static MainResponse? mainCache;
+
   static Future<MainResponse> getMain(
       [String packageName = 'com.test.test']) async {
+    if (mainCache != null) return mainCache!;
     dynamic json =
         await API.httpGet('application/main', {'package_name': packageName});
-    return MainResponse.fromJson(json);
+    mainCache = MainResponse.fromJson(json);
+    return mainCache!;
   }
 }

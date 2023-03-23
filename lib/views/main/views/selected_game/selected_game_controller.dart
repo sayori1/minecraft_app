@@ -9,6 +9,7 @@ import 'package:flutter_application/repositories/liked_repository.dart';
 import 'package:flutter_application/services/ad_service.dart';
 import 'package:flutter_application/services/app_service.dart';
 import 'package:flutter_application/services/downloader_service.dart';
+import 'package:flutter_application/utils/getx_base_view_model.dart';
 import 'package:flutter_application/views/main/views/selected_game/views/downloaded_dialog_view.dart';
 import 'package:flutter_application/views/main/views/selected_game/views/feedback_dialog_view.dart';
 import 'package:flutter_application/views/main/views/selected_game/views/rating_dialog_view.dart';
@@ -17,31 +18,31 @@ import 'package:get/get.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 
-class SelectedGameController extends GetxController {
+class SelectedGameController extends GetxBaseViewModel {
   Game game;
   RxBool isLiked = RxBool(false);
   RxBool isDownloaded = RxBool(false);
+  RxBool isJustDownloaded = RxBool(false);
   TextEditingController feedbackText = TextEditingController();
 
   Widget? ad;
   Widget? dialogAd;
 
-  bool isBusy = false;
-
   SelectedGameController({required this.game});
 
   @override
   void onInit() async {
-    isBusy = true;
-    ad = await Get.find<AdService>().asyncNativeAd();
-    isLiked.value = await LikedRepository.isLiked(game.id.toString());
-    isDownloaded.value = await DownloaderService.isDownloaded(game.file.url);
-
-    game = await GameAPI.get(game.id.toString());
-    dialogAd = await Get.find<AdService>().asyncNativeAd();
-    update();
-    isBusy = false;
     super.onInit();
+
+    runFuture(() async {
+      ad = await Get.find<AdService>().asyncNativeAd();
+      isLiked.value = await LikedRepository.isLiked(game.id.toString());
+      isDownloaded.value = await DownloaderService.isDownloaded(game.file.url);
+
+      game = await GameAPI.get(game.id.toString());
+      dialogAd = await Get.find<AdService>().asyncNativeAd();
+      update();
+    });
   }
 
   void showFeedbackDialog() async {
@@ -86,7 +87,8 @@ class SelectedGameController extends GetxController {
       const DownloadDialog(),
     );
     if (result) {
-      Get.find<SelectedGameController>().isDownloaded.value = true;
+      isDownloaded.value = true;
+      isJustDownloaded.value = true;
       GameAPI.install(game.id.toString());
       DownloadRepository.addDownloaded(
           Get.find<SelectedGameController>().game.id.toString());

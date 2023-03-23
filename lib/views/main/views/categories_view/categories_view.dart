@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/constants/colors.dart';
+import 'package:flutter_application/constants/keys.dart';
 import 'package:flutter_application/main.dart';
 import 'package:flutter_application/models/base/category.dart';
 import 'package:flutter_application/models/base/game.dart';
+import 'package:flutter_application/services/ad_service.dart';
 import 'package:flutter_application/views/main/views/categories_view/categories_controller.dart';
 import 'package:flutter_application/views/main/common.dart';
 import 'package:get/get.dart';
@@ -12,6 +14,8 @@ class CategoriesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.find<AdService>().visitNewPage();
+
     return GetBuilder<CategoriesController>(
         init: CategoriesController(),
         builder: (model) {
