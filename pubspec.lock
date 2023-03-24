@@ -171,10 +171,9 @@ packages:
   flutter_yandex_ads:
     dependency: "direct main"
     description:
-      name: flutter_yandex_ads
-      sha256: "74e7eda6f42ceb506900a0fea6d7a351feca2d45f7ce636ab09573a313a1ea54"
-      url: "https://pub.dev"
-    source: hosted
+      path: "packages/flutter_yandex_ads"
+      relative: true
+    source: path
     version: "1.0.0+1"
   get:
     dependency: "direct main"

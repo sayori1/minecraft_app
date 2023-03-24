@@ -22,6 +22,7 @@ dependencies:
   open_file:
   google_mobile_ads:
   flutter_yandex_ads:
+    path: "./packages/flutter_yandex_ads"
 
   cupertino_icons: ^1.0.2
 

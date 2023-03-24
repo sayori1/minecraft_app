@@ -5,6 +5,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/models/base/ad.dart' as App;
 import 'package:flutter_application/views/main/main_controller.dart';
+import 'package:flutter_yandex_ads/components/interstitial.dart';
+import 'package:flutter_yandex_ads/pigeons/banner.dart';
+import 'package:flutter_yandex_ads/pigeons/interstitial.dart';
+import 'package:flutter_yandex_ads/widgets/native.dart';
 import 'package:flutter_yandex_ads/yandex.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -13,7 +17,8 @@ class AdService extends GetxController {
   App.Ad ad;
   AdService({required this.ad});
 
-  InterstitialAd? interstitialAd;
+  InterstitialAd? googleInterstitialAd;
+  YandexAdsInterstitialComponent? yandexInterstitialAd;
   int countOfVisitedPages = 0;
 
   @override
@@ -24,19 +29,8 @@ class AdService extends GetxController {
     debugger();
   }
 
-  void loadInterstitial() {
-    InterstitialAd.load(
-        adUnitId: ad.interUid,
-        request: const AdRequest(),
-        adLoadCallback: InterstitialAdLoadCallback(
-          onAdLoaded: (ad) {
-            debugPrint('$ad loaded.');
-            interstitialAd = ad;
-          },
-          onAdFailedToLoad: (LoadAdError error) {
-            debugPrint('InterstitialAd failed to load: $error');
-          },
-        ));
+  bool isGoogleAds() {
+    return ad.adType == 'GOOGLE';
   }
 
   bool needToShowNative({
@@ -75,12 +69,34 @@ class AdService extends GetxController {
     return false;
   }
 
-  bool needToShowInterstitial() {
-    if (countOfVisitedPages % ad.countInter == 0) return true;
-    return false;
+  Future<Widget> asyncNativeAd() async {
+    if (isGoogleAds()) return await asyncGoogleNativeAd();
+    return await asyncYandexNativeAd();
   }
 
-  Future<Widget> asyncNativeAd() async {
+  Future<Widget> asyncYandexNativeAd() async {
+    Widget ad = Container(
+      padding: EdgeInsets.all(5),
+      width: Get.width,
+      height: 210,
+      child: YandexAdsNativeWidget(
+        id: 'R-M-2268755-1',
+        onAdLoaded: () {},
+        onAdFailedToLoad: (BannerError err) {
+          debugger();
+        },
+        onImpression: (BannerImpression? data) {
+          print("native onImpression ${data?.data}");
+        },
+        onAdClicked: () {
+          print('native onAdClicked');
+        },
+      ),
+    ).marginOnly(top: 10, bottom: 10);
+    return ad;
+  }
+
+  Future<Widget> asyncGoogleNativeAd() async {
     Completer<bool> adLoaded = Completer();
 
     NativeAd _ad = NativeAd(
@@ -109,9 +125,19 @@ class AdService extends GetxController {
     );
   }
 
+  bool needToShowInterstitial() {
+    if (countOfVisitedPages % ad.countInter == 0) return true;
+    return false;
+  }
+
   void callInterstitalShowing() {
-    interstitialAd?.show();
-    loadInterstitial();
+    if (isGoogleAds()) {
+      googleInterstitialAd?.show();
+      loadGoogleInterstitial();
+    } else {
+      yandexInterstitialAd?.show();
+      loadYandexInterstitial();
+    }
   }
 
   void visitNewPage() {
@@ -120,5 +146,44 @@ class AdService extends GetxController {
     if (needTo) {
       callInterstitalShowing();
     }
+  }
+
+  void loadYandexInterstitial() {
+    yandexInterstitialAd = YandexAdsInterstitialComponent(
+      id: 'R-M-2268755-2',
+      onAdLoaded: () {
+        print('interstitial onAdLoaded');
+      },
+      onAdFailedToLoad: (InterstitialError err) {
+        print(
+            'interstitial onAdFailedToLoad code: ${err.code}, description: ${err.description}');
+      },
+      onAdDismissed: () {
+        print("interstitial onAdDismissed");
+      },
+      onAdShown: () {
+        print("interstitial onAdShown");
+      },
+      onImpression: (InterstitialImpression? data) {
+        print('interstitial onImpression ${data?.data}');
+      },
+    );
+
+    yandexInterstitialAd!.load();
+  }
+
+  void loadGoogleInterstitial() {
+    InterstitialAd.load(
+        adUnitId: ad.interUid,
+        request: const AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+          onAdLoaded: (ad) {
+            debugPrint('$ad loaded.');
+            googleInterstitialAd = ad;
+          },
+          onAdFailedToLoad: (LoadAdError error) {
+            debugPrint('InterstitialAd failed to load: $error');
+          },
+        ));
   }
 }

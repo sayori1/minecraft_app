@@ -32,7 +32,6 @@ class _PreviewViewState extends State<PreviewView> {
                   ))
                 : Column(
                     children: [
-                      SizedBox(height: 30),
                       model.ad!,
                       Common.fullCategory(model.categories.first,
                           onGameTap: (Game game) {
