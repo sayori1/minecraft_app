@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_application/constants/colors.dart';
 import 'package:flutter_application/services/app_service.dart';
 import 'package:flutter_application/services/downloader_service.dart';
@@ -34,6 +35,10 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return GetMaterialApp(
       defaultTransition: Transition.rightToLeftWithFade,
       transitionDuration: 0.3.seconds,

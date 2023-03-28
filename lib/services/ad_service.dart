@@ -8,6 +8,7 @@ import 'package:flutter_application/views/main/main_controller.dart';
 import 'package:flutter_yandex_ads/components/interstitial.dart';
 import 'package:flutter_yandex_ads/pigeons/banner.dart';
 import 'package:flutter_yandex_ads/pigeons/interstitial.dart';
+import 'package:flutter_yandex_ads/pigeons/native.dart';
 import 'package:flutter_yandex_ads/widgets/native.dart';
 import 'package:flutter_yandex_ads/yandex.dart';
 import 'package:get/get.dart';
@@ -26,7 +27,6 @@ class AdService extends GetxController {
     super.onInit();
     MobileAds.instance.initialize();
     FlutterYandexAds.initialize();
-    debugger();
   }
 
   bool isGoogleAds() {
@@ -71,10 +71,12 @@ class AdService extends GetxController {
 
   Future<Widget> asyncNativeAd() async {
     if (isGoogleAds()) return await asyncGoogleNativeAd();
-    return await asyncYandexNativeAd();
+    return syncYandexNativeAd();
   }
 
-  Future<Widget> asyncYandexNativeAd() async {
+  Widget syncYandexNativeAd() {
+    //YandexAdsNative().load('R-M-2268755-1', Get.width.toInt(), 210);
+
     Widget ad = Container(
       padding: EdgeInsets.all(5),
       width: Get.width,
@@ -93,6 +95,7 @@ class AdService extends GetxController {
         },
       ),
     ).marginOnly(top: 10, bottom: 10);
+
     return ad;
   }
 
@@ -162,11 +165,9 @@ class AdService extends GetxController {
         print("interstitial onAdDismissed");
       },
       onAdShown: () {
-        print("interstitial onAdShown");
+        yandexInterstitialAd = null;
       },
-      onImpression: (InterstitialImpression? data) {
-        print('interstitial onImpression ${data?.data}');
-      },
+      onImpression: (InterstitialImpression? data) {},
     );
 
     yandexInterstitialAd!.load();

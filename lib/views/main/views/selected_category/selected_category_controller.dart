@@ -18,19 +18,18 @@ class SelectedCategoryController extends GetxBaseViewModel {
 
   void onInit() async {
     super.onInit();
+    debugger();
+    Widget ad = Get.find<AdService>().syncYandexNativeAd();
 
-    runFuture(() async {
-      AdService adService = Get.find();
+    for (int i = 0; i < category.gamesTop.length; i++) {
+      children.add(Common.gameCard(category.gamesTop[i], (game) {
+        Get.toNamed(AppLinks.selectedGame, id: 1, arguments: game);
+      }));
 
-      for (int i = 0; i < category.gamesTop.length; i++) {
-        children.add(Common.gameCard(category.gamesTop[i], (game) {
-          Get.toNamed(AppLinks.selectedGame, id: 1, arguments: game);
-        }));
-        if (adService.needToShowNative(gameIndex: i)) {
-          Widget ad = await adService.asyncNativeAd();
-          children.add(ad);
-        }
+      if (Get.find<AdService>().needToShowNative(gameIndex: i)) {
+        children.add(Get.find<AdService>().syncYandexNativeAd());
       }
-    });
+    }
+    update();
   }
 }

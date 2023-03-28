@@ -9,8 +9,10 @@ import 'package:flutter_application/models/base/game.dart';
 import 'package:flutter_application/repositories/liked_repository.dart';
 import 'package:flutter_application/services/ad_service.dart';
 import 'package:flutter_application/views/main/common.dart';
+import 'package:flutter_application/views/main/views/preview/preview_controller.dart';
 import 'package:flutter_application/views/main/views/selected_game/selected_game_controller.dart';
 import 'package:flutter_application/views/main/widgets/colored_category.dart';
+import 'package:flutter_application/views/root/root_controller.dart';
 import 'package:flutter_application/widgets/like_button.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -34,7 +36,8 @@ class SelectedGameView extends StatelessWidget {
                 title: Text(model.game.title),
                 leading: BackButton(
                   onPressed: () {
-                    Get.back(id: 1);
+                    //Get.find<PreviewController>().refreshAd();
+                    Get.offAllNamed(AppLinks.preview, id: 1);
                   },
                 ),
                 actions: [
@@ -64,6 +67,10 @@ class SelectedGameView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                Column(children: [
+                  for (int i = 0; i < 10; i++)
+                    Get.find<AdService>().syncYandexNativeAd()
+                ]),
                 if (model.ad != null) model.ad!,
                 card,
                 Obx(() => model.isDownloaded.value
@@ -138,6 +145,7 @@ class SelectedGameView extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(8))),
         child:
             Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          if (model.ad != null) model.ad!,
           const SizedBox(height: 10),
           Text('Успешно загружено',
               style: AppTextStyles.interSemiBold16,

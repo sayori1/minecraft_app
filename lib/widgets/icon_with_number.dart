@@ -17,7 +17,8 @@ class IconWithNumber extends StatelessWidget {
         const SizedBox(width: 5.0),
         Text(
           number,
-          style: AppTextStyles.interRegular16.copyWith(color: Pallete.blue),
+          style: AppTextStyles.interRegular16
+              .copyWith(color: Pallete.blue, fontSize: 13),
         ),
         const SizedBox(width: 13.0),
       ],

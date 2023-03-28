@@ -4,7 +4,9 @@ import 'package:flutter_application/main.dart';
 import 'package:flutter_application/models/base/category.dart';
 import 'package:flutter_application/services/ad_service.dart';
 import 'package:flutter_application/views/main/common.dart';
+import 'package:flutter_application/views/main/views/preview/preview_controller.dart';
 import 'package:flutter_application/views/main/views/selected_category/selected_category_controller.dart';
+import 'package:flutter_application/views/root/root_controller.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
@@ -24,7 +26,7 @@ class SelectedCategoryView extends StatelessWidget {
               title: Text(model.category!.title),
               leading: BackButton(
                 onPressed: () {
-                  Get.back(id: 1);
+                  Get.offAllNamed(AppLinks.preview, id: 1);
                 },
               ),
             ),

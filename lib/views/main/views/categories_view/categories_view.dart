@@ -5,8 +5,11 @@ import 'package:flutter_application/main.dart';
 import 'package:flutter_application/models/base/category.dart';
 import 'package:flutter_application/models/base/game.dart';
 import 'package:flutter_application/services/ad_service.dart';
+import 'package:flutter_application/views/main/main_controller.dart';
 import 'package:flutter_application/views/main/views/categories_view/categories_controller.dart';
 import 'package:flutter_application/views/main/common.dart';
+import 'package:flutter_application/views/main/views/preview/preview_controller.dart';
+import 'package:flutter_application/views/root/root_controller.dart';
 import 'package:get/get.dart';
 
 class CategoriesView extends StatelessWidget {
@@ -25,7 +28,7 @@ class CategoriesView extends StatelessWidget {
                 backgroundColor: Pallete.blue,
                 leading: BackButton(
                   onPressed: () {
-                    Get.back(id: 1);
+                    Get.offAllNamed(AppLinks.preview, id: 1);
                   },
                 ),
               ),

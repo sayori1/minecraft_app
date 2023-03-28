@@ -36,7 +36,7 @@ class LikesView extends StatelessWidget {
                 backgroundColor: Pallete.blue,
                 leading: BackButton(
                   onPressed: () {
-                    Get.find<RootController>().back();
+                    Get.find<RootController>().goToTab(0);
                   },
                 ),
               ),

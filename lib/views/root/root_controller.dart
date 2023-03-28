@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_application/main.dart';
 import 'package:flutter_application/models/base/game.dart';
 import 'package:flutter_application/services/ad_service.dart';
@@ -11,8 +13,8 @@ class RootController extends GetxController {
   RxInt selectedTab = 0.obs;
   List<Enum> stack = [Tabs.main];
 
-  void goToTab(int index, {addToStack = true}) async {
-    if (index == selectedTab.value) return;
+  void goToTab(int index, {addToStack = true, refresh = false}) async {
+    if (index == selectedTab.value && !refresh) return;
     Get.find<AdService>().visitNewPage();
     if (addToStack) stack.add(Tabs.values[index]);
 

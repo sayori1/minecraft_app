@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application/constants/colors.dart';
 import 'package:flutter_application/constants/text_styles.dart';
 import 'package:flutter_application/widgets/icon_with_number.dart';
+import 'package:get/get.dart';
 
 class AppCard extends StatelessWidget {
   final String title;
@@ -32,9 +33,8 @@ class AppCard extends StatelessWidget {
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(12))),
-        padding: const EdgeInsets.only(
-            left: 16.0, right: 16.0, top: 16.0, bottom: 16.0),
         margin: const EdgeInsets.only(bottom: 10),
+        padding: EdgeInsets.only(top: 16, bottom: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -42,8 +42,8 @@ class AppCard extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: AppTextStyles.interRegular16
-                      .copyWith(color: Pallete.blue),
+                  style: AppTextStyles.interRegular16.copyWith(
+                      color: Pallete.blue, fontWeight: FontWeight.w600),
                   maxLines: 1,
                 ),
                 const Spacer(),
@@ -60,7 +60,7 @@ class AppCard extends StatelessWidget {
                   ),
                 ),
               ],
-            ),
+            ).marginSymmetric(horizontal: 16),
             const SizedBox(height: 16.0),
             Image.network(
               image,
@@ -89,9 +89,9 @@ class AppCard extends StatelessWidget {
                 Text(version,
                     textAlign: TextAlign.right,
                     style: AppTextStyles.interRegular16
-                        .copyWith(color: Pallete.blue)),
+                        .copyWith(color: Pallete.blue, fontSize: 13)),
               ],
-            ),
+            ).marginSymmetric(horizontal: 16),
           ],
         ),
       ),
