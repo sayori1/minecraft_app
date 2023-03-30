@@ -42,7 +42,8 @@ class AdService extends GetxController {
   }) {
     if (!ad.enableNative) return false;
 
-    if (isInMainPage) return true; //TO DO add condition from backend
+    if (isInMainPage && gameIndex == ad.countMrecMain)
+      return true; //TO DO add condition from backend
     if (isInGamePage && ad.enableMrecGamePage) return true;
     if (isInDialog && ad.enableMrecMain) return true;
 
@@ -71,32 +72,41 @@ class AdService extends GetxController {
 
   Future<Widget> asyncNativeAd() async {
     if (isGoogleAds()) return await asyncGoogleNativeAd();
-    return syncYandexNativeAd();
+    return await asyncYandexNativeAd();
   }
 
-  Widget syncYandexNativeAd() {
-    //YandexAdsNative().load('R-M-2268755-1', Get.width.toInt(), 210);
+  Future<Widget> asyncYandexNativeAd() async {
+    Completer<bool> adLoaded = Completer();
 
-    Widget ad = Container(
-      padding: EdgeInsets.all(5),
-      width: Get.width,
-      height: 210,
-      child: YandexAdsNativeWidget(
-        id: 'R-M-2268755-1',
-        onAdLoaded: () {},
-        onAdFailedToLoad: (BannerError err) {
-          debugger();
-        },
-        onImpression: (BannerImpression? data) {
-          print("native onImpression ${data?.data}");
-        },
-        onAdClicked: () {
-          print('native onAdClicked');
-        },
-      ),
-    ).marginOnly(top: 10, bottom: 10);
+    var yAd = YandexAdsNativeWidget(
+      id: 'R-M-2268755-1',
+      onAdLoaded: () {
+        adLoaded.complete(true);
+      },
+      onAdFailedToLoad: (BannerError err) {
+        debugger();
+        adLoaded.complete(false);
+      },
+      onImpression: (BannerImpression? data) {
+        print("native onImpression ${data?.data}");
+      },
+      onAdClicked: () {
+        print('native onAdClicked');
+      },
+    );
 
-    return ad;
+    await yAd.load();
+    bool result = await adLoaded.future;
+
+    if (!result) return Container();
+    return StatefulBuilder(
+        key: UniqueKey(),
+        builder: (context, setState) => Container(
+                padding: EdgeInsets.all(5),
+                width: Get.width,
+                height: 210,
+                child: yAd)
+            .marginOnly(top: 10, bottom: 10));
   }
 
   Future<Widget> asyncGoogleNativeAd() async {
@@ -129,6 +139,7 @@ class AdService extends GetxController {
   }
 
   bool needToShowInterstitial() {
+    return false;
     if (countOfVisitedPages % ad.countInter == 0) return true;
     return false;
   }
@@ -167,7 +178,9 @@ class AdService extends GetxController {
       onAdShown: () {
         yandexInterstitialAd = null;
       },
-      onImpression: (InterstitialImpression? data) {},
+      onImpression: (InterstitialImpression? data) {
+        yandexInterstitialAd = null;
+      },
     );
 
     yandexInterstitialAd!.load();
