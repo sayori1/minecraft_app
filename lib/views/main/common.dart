@@ -63,26 +63,28 @@ class Common {
     }));
   }
 
-  static Builder fullCategory(Category category,
+  static Future<Widget> fullCategory(Category category,
       {required Function(Game) onGameTap,
       required Function onButtonTap,
-      withAds = false}) {
-    return Builder(builder: ((context) {
-      AdService adService = Get.find();
-      List<Widget> children = [];
+      withAds = false}) async {
+    AdService adService = Get.find();
+    List<Widget> children = [];
 
-      for (int i = 2; i < category.gamesTop.length; i++) {
-        children.add(gameCard(category.gamesTop[i], onGameTap));
+    for (int i = 2; i < category.gamesTop.length; i++) {
+      children.add(gameCard(category.gamesTop[i], onGameTap));
+      if (withAds &&
+          Get.find<AdService>()
+              .needToShowNative(gameIndex: i - 2, isInMainPage: true)) {
+        children.add(await Get.find<AdService>().asyncNativeAd());
       }
-
-      return AppCategory(
-          categoryName: category.title,
-          horizontalCount: 1,
-          buttonText: 'Еще категории',
-          onTap: () {
-            onButtonTap();
-          },
-          children: children);
-    }));
+    }
+    return AppCategory(
+        categoryName: category.title,
+        horizontalCount: 1,
+        buttonText: 'Еще категории',
+        onTap: () {
+          onButtonTap();
+        },
+        children: children);
   }
 }

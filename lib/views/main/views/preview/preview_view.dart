@@ -32,14 +32,7 @@ class _PreviewViewState extends State<PreviewView> {
                   ))
                 : Column(
                     children: [
-                      model.ad!,
-                      Common.fullCategory(model.categories.first,
-                          onGameTap: (Game game) {
-                        Get.toNamed(AppLinks.selectedGame,
-                            id: 1, arguments: game);
-                      }, onButtonTap: () {
-                        Get.toNamed(AppLinks.categories, id: 1);
-                      }, withAds: false),
+                      model.fullCategory!,
                       Common.categories(model.categories, start: 1,
                           onGameTap: (Game game) {
                         Get.toNamed(AppLinks.selectedGame,

@@ -67,10 +67,6 @@ class SelectedGameView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Column(children: [
-                  for (int i = 0; i < 10; i++)
-                    Get.find<AdService>().syncYandexNativeAd()
-                ]),
                 if (model.ad != null) model.ad!,
                 card,
                 Obx(() => model.isDownloaded.value

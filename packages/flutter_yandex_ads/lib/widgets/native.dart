@@ -27,60 +27,56 @@ class YandexAdsNativeWidget extends StatefulWidget {
   Function? onLeftApplication;
   Function? onReturnedToApplication;
 
+  Future<void> load() async {
+    var native = YandexAdsNative();
+
+    native.make(id);
+
+    if (onAdLoaded != null) {
+      native.onAdLoaded(id).then((value) {
+        onAdLoaded!();
+      });
+    }
+
+    if (onAdFailedToLoad != null) {
+      native.onAdFailedToLoad(id).then((value) {
+        onAdFailedToLoad!(value);
+      });
+    }
+
+    if (onImpression != null) {
+      native.onImpression(id).then((value) {
+        onImpression!(value);
+      });
+    }
+
+    if (onAdClicked != null) {
+      native.onAdClicked(id).then((value) {
+        onAdClicked!();
+      });
+    }
+
+    if (onLeftApplication != null) {
+      native.onLeftApplication(id).then((value) {
+        onLeftApplication!();
+      });
+    }
+
+    if (onReturnedToApplication != null) {
+      native.onReturnedToApplication(id).then((value) {
+        onReturnedToApplication!();
+      });
+    }
+
+    await native.load(id, width, height);
+  }
+
   @override
   State<YandexAdsNativeWidget> createState() => _YandexAdsNativeWidgetState();
 }
 
 class _YandexAdsNativeWidgetState extends State<YandexAdsNativeWidget> {
   bool loaded = false;
-
-  @override
-  void initState() {
-    var native = YandexAdsNative();
-
-    native.make(widget.id);
-
-    if (widget.onAdLoaded != null) {
-      native.onAdLoaded(widget.id).then((value) {
-        setState(() {
-          loaded = true;
-        });
-        widget.onAdLoaded!();
-      });
-    }
-
-    if (widget.onAdFailedToLoad != null) {
-      native.onAdFailedToLoad(widget.id).then((value) {
-        widget.onAdFailedToLoad!(value);
-      });
-    }
-
-    if (widget.onImpression != null) {
-      native.onImpression(widget.id).then((value) {
-        widget.onImpression!(value);
-      });
-    }
-
-    if (widget.onAdClicked != null) {
-      native.onAdClicked(widget.id).then((value) {
-        widget.onAdClicked!();
-      });
-    }
-
-    if (widget.onLeftApplication != null) {
-      native.onLeftApplication(widget.id).then((value) {
-        widget.onLeftApplication!();
-      });
-    }
-
-    if (widget.onReturnedToApplication != null) {
-      native.onReturnedToApplication(widget.id).then((value) {
-        widget.onReturnedToApplication!();
-      });
-    }
-
-    native.load(widget.id, widget.width, widget.height);
-  }
 
   Widget build(BuildContext context) {
     const String viewType = 'yandex-ads-native';
@@ -89,27 +85,25 @@ class _YandexAdsNativeWidgetState extends State<YandexAdsNativeWidget> {
       'id': widget.id,
     };
 
-    if (!loaded) {
-      return const Text("loading..");
-    } else {
-      switch (defaultTargetPlatform) {
-        case TargetPlatform.android:
-          return AndroidView(
-            viewType: viewType,
-            layoutDirection: TextDirection.ltr,
-            creationParams: creationParams,
-            creationParamsCodec: const StandardMessageCodec(),
-          );
-        case TargetPlatform.iOS:
-          return UiKitView(
-            viewType: viewType,
-            layoutDirection: TextDirection.ltr,
-            creationParams: creationParams,
-            creationParamsCodec: const StandardMessageCodec(),
-          );
-        default:
-          throw UnsupportedError('Unsupported platform view');
-      }
+    switch (defaultTargetPlatform) {
+      case TargetPlatform.android:
+        return AndroidView(
+          key: UniqueKey(),
+          viewType: viewType,
+          layoutDirection: TextDirection.ltr,
+          creationParams: creationParams,
+          creationParamsCodec: const StandardMessageCodec(),
+        );
+      case TargetPlatform.iOS:
+        return UiKitView(
+          key: UniqueKey(),
+          viewType: viewType,
+          layoutDirection: TextDirection.ltr,
+          creationParams: creationParams,
+          creationParamsCodec: const StandardMessageCodec(),
+        );
+      default:
+        throw UnsupportedError('Unsupported platform view');
     }
   }
 }
