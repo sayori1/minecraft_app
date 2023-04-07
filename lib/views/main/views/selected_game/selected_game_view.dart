@@ -9,6 +9,7 @@ import 'package:flutter_application/models/base/game.dart';
 import 'package:flutter_application/repositories/liked_repository.dart';
 import 'package:flutter_application/services/ad_service.dart';
 import 'package:flutter_application/views/main/common.dart';
+import 'package:flutter_application/views/main/main_controller.dart';
 import 'package:flutter_application/views/main/views/preview/preview_controller.dart';
 import 'package:flutter_application/views/main/views/selected_game/selected_game_controller.dart';
 import 'package:flutter_application/views/main/widgets/colored_category.dart';
@@ -36,8 +37,7 @@ class SelectedGameView extends StatelessWidget {
                 title: Text(model.game.title),
                 leading: BackButton(
                   onPressed: () {
-                    //Get.find<PreviewController>().refreshAd();
-                    Get.offAllNamed(AppLinks.preview, id: 1);
+                    Get.find<MainController>().goToPreview();
                   },
                 ),
                 actions: [

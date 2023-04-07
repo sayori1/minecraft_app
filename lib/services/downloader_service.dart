@@ -71,7 +71,8 @@ class DownloaderService extends GetxController {
   static Future<bool> isDownloaded(String url) async {
     List<DownloadTask>? tasks = await FlutterDownloader.loadTasks();
     DownloadTask? task = tasks!.firstWhereOrNull((e) => e.url == url);
-    return task != null;
+
+    return task != null && task.status == DownloadTaskStatus.complete;
   }
 
   static Future<void> open(String url) async {

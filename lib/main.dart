@@ -39,6 +39,10 @@ class _MyAppState extends State<MyApp> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Pallete.blue, // status bar color
+    ));
+
     return GetMaterialApp(
       defaultTransition: Transition.rightToLeftWithFade,
       transitionDuration: 0.3.seconds,

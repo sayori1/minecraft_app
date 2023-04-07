@@ -40,7 +40,7 @@ class SmallCard extends StatelessWidget {
           children: [
             Text(
               title,
-              textAlign: TextAlign.center,
+              textAlign: TextAlign.left,
               style: AppTextStyles.interRegular16.copyWith(color: Pallete.blue),
               maxLines: 2,
             ).marginSymmetric(horizontal: 16.0),

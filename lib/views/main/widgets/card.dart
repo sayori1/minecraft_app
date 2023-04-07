@@ -32,6 +32,14 @@ class AppCard extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
             color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.1),
+                spreadRadius: 2,
+                blurRadius: 3,
+                offset: Offset(0, 0), // changes position of shadow
+              ),
+            ],
             borderRadius: BorderRadius.all(Radius.circular(12))),
         margin: const EdgeInsets.only(bottom: 10),
         padding: EdgeInsets.only(top: 16, bottom: 16),

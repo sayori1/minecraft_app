@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/constants/keys.dart';
+import 'package:flutter_application/constants/text_styles.dart';
 import 'package:flutter_application/main.dart';
 import 'package:flutter_application/models/base/category.dart';
 import 'package:flutter_application/models/base/game.dart';
@@ -33,11 +34,16 @@ class _MainViewState extends State<MainView> {
       builder: (model) {
         return SafeArea(
           child: model.isBusy
-              ? const Center(
-                  child: Padding(
-                  padding: EdgeInsets.only(top: 200),
-                  child: CircularProgressIndicator(),
-                ))
+              ? Column(children: [
+                  Spacer(),
+                  Image.asset('assets/images/logo.png'),
+                  SizedBox(height: 10),
+                  Text('Один блок для Майнкрафта',
+                      style: AppTextStyles.interSemiBold16),
+                  SizedBox(height: 10),
+                  CircularProgressIndicator(),
+                  Spacer(),
+                ])
               : Navigator(
                   key: AppKeys.mainNavigationKey,
                   initialRoute: AppLinks.preview,

@@ -12,6 +12,7 @@ import 'package:flutter_application/repositories/liked_repository.dart';
 import 'package:flutter_application/services/ad_service.dart';
 import 'package:flutter_application/utils/getx_base_view_model.dart';
 import 'package:flutter_application/views/main/views/categories_view/categories_view.dart';
+import 'package:flutter_application/views/main/views/preview/preview_controller.dart';
 import 'package:flutter_application/views/main/views/preview/preview_view.dart';
 import 'package:flutter_application/views/main/views/selected_category/selected_category_view.dart';
 import 'package:flutter_application/views/main/views/selected_game/selected_game_view.dart';
@@ -57,5 +58,10 @@ class MainController extends GetxBaseViewModel {
           settings: settings);
     }
     return null;
+  }
+
+  goToPreview() {
+    Get.offAllNamed(AppLinks.preview, id: 1);
+    Get.find<PreviewController>().refreshAd();
   }
 }

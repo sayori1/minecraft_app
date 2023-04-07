@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_application/constants/colors.dart';
 import 'package:flutter_application/constants/keys.dart';
 import 'package:flutter_application/main.dart';
 import 'package:flutter_application/models/base/category.dart';
@@ -23,26 +25,28 @@ class _PreviewViewState extends State<PreviewView> {
     return GetBuilder<PreviewController>(
         init: PreviewController(),
         builder: (model) {
-          return SingleChildScrollView(
-            child: model.isBusy
-                ? const Center(
-                    child: Padding(
-                    padding: EdgeInsets.only(top: 200),
-                    child: CircularProgressIndicator(),
-                  ))
-                : Column(
-                    children: [
-                      model.fullCategory!,
-                      Common.categories(model.categories, start: 1,
-                          onGameTap: (Game game) {
-                        Get.toNamed(AppLinks.selectedGame,
-                            id: 1, arguments: game);
-                      }, onCategoryTap: (Category category) {
-                        Get.toNamed(AppLinks.selectedCategory,
-                            id: 1, arguments: category);
-                      }),
-                    ],
-                  ),
+          return Scaffold(
+            body: SingleChildScrollView(
+              child: model.isBusy
+                  ? const Center(
+                      child: Padding(
+                      padding: EdgeInsets.only(top: 200),
+                      child: CircularProgressIndicator(),
+                    ))
+                  : Column(
+                      children: [
+                        model.fullCategory!,
+                        Common.categories(model.categories, start: 1,
+                            onGameTap: (Game game) {
+                          Get.toNamed(AppLinks.selectedGame,
+                              id: 1, arguments: game);
+                        }, onCategoryTap: (Category category) {
+                          Get.toNamed(AppLinks.selectedCategory,
+                              id: 1, arguments: category);
+                        }),
+                      ],
+                    ),
+            ),
           );
         });
   }

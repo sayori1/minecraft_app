@@ -28,7 +28,7 @@ class CategoriesView extends StatelessWidget {
                 backgroundColor: Pallete.blue,
                 leading: BackButton(
                   onPressed: () {
-                    Get.offAllNamed(AppLinks.preview, id: 1);
+                    Get.find<MainController>().goToPreview();
                   },
                 ),
               ),

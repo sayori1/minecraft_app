@@ -39,3 +39,4 @@ flutter:
         - asset: assets/fonts/Inter.ttf
   assets:
     - assets/icons/
+    - assets/images/

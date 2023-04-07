@@ -99,14 +99,12 @@ class AdService extends GetxController {
     bool result = await adLoaded.future;
 
     if (!result) return Container();
-    return StatefulBuilder(
-        key: UniqueKey(),
-        builder: (context, setState) => Container(
-                padding: EdgeInsets.all(5),
-                width: Get.width,
-                height: 210,
-                child: yAd)
-            .marginOnly(top: 10, bottom: 10));
+    return Container(
+            padding: EdgeInsets.all(5),
+            width: Get.width,
+            height: 210,
+            child: yAd)
+        .marginOnly(top: 10, bottom: 10);
   }
 
   Future<Widget> asyncGoogleNativeAd() async {
@@ -139,7 +137,6 @@ class AdService extends GetxController {
   }
 
   bool needToShowInterstitial() {
-    return false;
     if (countOfVisitedPages % ad.countInter == 0) return true;
     return false;
   }

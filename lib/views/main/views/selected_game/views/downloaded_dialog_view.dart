@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application/constants/colors.dart';
 import 'package:flutter_application/constants/text_styles.dart';
@@ -7,16 +9,22 @@ import 'package:flutter_application/views/main/views/selected_game/selected_game
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:get/get.dart';
 
-class DownloadDialog extends StatelessWidget {
+class DownloadDialog extends StatefulWidget {
   const DownloadDialog({super.key});
 
+  @override
+  State<DownloadDialog> createState() => _DownloadDialogState();
+}
+
+class _DownloadDialogState extends State<DownloadDialog> {
+  bool startDownloading = false;
   @override
   Widget build(BuildContext context) {
     return GetBuilder<DownloaderService>(builder: (model) {
       return Center(
         child: Container(
-          width: 300,
-          height: 340,
+          width: Get.width - 40,
+          height: startDownloading ? 340 : 300,
           decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(20))),
           child: Center(
@@ -35,10 +43,13 @@ class DownloadDialog extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              if (model.status.value ==
+                              if (!startDownloading)
+                                defaultState(model)
+                              else if (model.status.value ==
                                   DownloadTaskStatus.complete)
                                 completedState(model)
-                              else
+                              else if (model.status.value ==
+                                  DownloadTaskStatus.running)
                                 downloadingState(model)
                             ]),
                       ),
@@ -58,22 +69,33 @@ class DownloadDialog extends StatelessWidget {
     });
   }
 
-/*   Widget request(DownloaderService model) {
-    return Column(
-      children: [
-        MaterialButton(
-          color: Pallete.white,
-          onPressed: () => model.showRatingDialog(),
-          child: const Text(
-            'Оценить приложение',
-            style: TextStyle(
-              color: Pallete.blue,
-            ),
+  Widget defaultState(DownloaderService model) {
+    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      Text(
+        'Хотите установить?',
+        style: AppTextStyles.interSemiBold16,
+        textAlign: TextAlign.left,
+      ),
+      SizedBox(height: 20),
+      MaterialButton(
+        color: Pallete.blue,
+        onPressed: () {
+          var controller = Get.find<SelectedGameController>();
+          setState(() {
+            model.startDownloading(
+                controller.game.file.url, controller.getFileName());
+            startDownloading = true;
+          });
+        },
+        child: const Text(
+          'Установить',
+          style: TextStyle(
+            color: Pallete.white,
           ),
         ),
-      ],
-    );
-  } */
+      )
+    ]);
+  }
 
   Widget downloadingState(DownloaderService model) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [

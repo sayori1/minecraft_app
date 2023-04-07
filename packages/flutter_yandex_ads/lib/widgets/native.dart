@@ -28,19 +28,13 @@ class YandexAdsNativeWidget extends StatefulWidget {
   Function? onReturnedToApplication;
 
   Future<void> load() async {
-    var native = YandexAdsNative();
+    YandexAdsNative? native = YandexAdsNative();
 
     native.make(id);
 
     if (onAdLoaded != null) {
       native.onAdLoaded(id).then((value) {
         onAdLoaded!();
-      });
-    }
-
-    if (onAdFailedToLoad != null) {
-      native.onAdFailedToLoad(id).then((value) {
-        onAdFailedToLoad!(value);
       });
     }
 
@@ -68,7 +62,14 @@ class YandexAdsNativeWidget extends StatefulWidget {
       });
     }
 
-    await native.load(id, width, height);
+    if (onAdFailedToLoad != null) {
+      native.onAdFailedToLoad(id).then((value) {
+        native = null;
+        onAdFailedToLoad!(value);
+      });
+    }
+
+    await native?.load(id, width, height);
   }
 
   @override
@@ -88,7 +89,6 @@ class _YandexAdsNativeWidgetState extends State<YandexAdsNativeWidget> {
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return AndroidView(
-          key: UniqueKey(),
           viewType: viewType,
           layoutDirection: TextDirection.ltr,
           creationParams: creationParams,
@@ -96,7 +96,6 @@ class _YandexAdsNativeWidgetState extends State<YandexAdsNativeWidget> {
         );
       case TargetPlatform.iOS:
         return UiKitView(
-          key: UniqueKey(),
           viewType: viewType,
           layoutDirection: TextDirection.ltr,
           creationParams: creationParams,

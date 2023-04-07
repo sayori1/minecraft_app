@@ -28,6 +28,7 @@ class SelectedGameController extends GetxBaseViewModel {
   TextEditingController feedbackText = TextEditingController();
 
   Widget? ad;
+
   Widget? dialogAd;
 
   SelectedGameController({required this.game});
@@ -38,6 +39,7 @@ class SelectedGameController extends GetxBaseViewModel {
 
     runFuture(() async {
       ad = await Get.find<AdService>().asyncNativeAd();
+
       isLiked.value = await LikedRepository.isLiked(game.id.toString());
       isDownloaded.value = await DownloaderService.isDownloaded(game.file.url);
       isRated.value = await RatedRepository.isRated(game.id.toString());
@@ -52,6 +54,17 @@ class SelectedGameController extends GetxBaseViewModel {
     Get.dialog(
       const FeedbackDialog(),
     );
+  }
+
+  Future<void> showDownloadDialog() async {
+    bool result = await Get.dialog(
+      const DownloadDialog(),
+    );
+    if (result) {
+      isDownloaded.value = true;
+      isJustDownloaded.value = true;
+      GameAPI.install(game.id.toString());
+    }
   }
 
   void showRatingDialog() {
@@ -77,19 +90,6 @@ class SelectedGameController extends GetxBaseViewModel {
         parts[parts.length - 2].split('/').last + game.id.toString();
     String extension = parts[parts.length - 1];
     return fileName + '.' + extension;
-  }
-
-  Future<void> showDownloadDialog() async {
-    Get.find<DownloaderService>()
-        .startDownloading(game.file.url, getFileName());
-    bool result = await Get.dialog(
-      const DownloadDialog(),
-    );
-    if (result) {
-      isDownloaded.value = true;
-      isJustDownloaded.value = true;
-      GameAPI.install(game.id.toString());
-    }
   }
 
   Future<void> openInMinecraft() async {
